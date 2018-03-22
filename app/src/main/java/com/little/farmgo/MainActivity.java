@@ -1,13 +1,40 @@
 package com.little.farmgo;
 
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private BottomNavigationView mNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mNavigationView = findViewById(R.id.bottom_view);
+        mNavigationView.setOnNavigationItemSelectedListener(this);
+    }
+
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.homepage:
+                break;
+            case R.id.member_data:
+                break;
+            case R.id.shopping_cart:
+                break;
+            case R.id.purchase_records:
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 }
