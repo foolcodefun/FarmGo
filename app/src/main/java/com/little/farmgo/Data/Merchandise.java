@@ -1,4 +1,4 @@
-package com.little.farmgo;
+package com.little.farmgo.Data;
 
 import java.net.URL;
 

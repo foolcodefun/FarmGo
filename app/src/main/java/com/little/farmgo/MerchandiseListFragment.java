@@ -1,8 +1,9 @@
 package com.little.farmgo;
 
-import android.app.Fragment;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.little.farmgo.Data.Merchandise;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +31,10 @@ public class MerchandiseListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_merchandise_list,container,false);
         mRecyclerView = view.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        /*List<Merchandise> merchandises = new ArrayList<>();
+        merchandises.add(new Merchandise("#1",10,"delicious",null));
+        merchandises.add(new Merchandise("#2",20,"delicious",null));
+        mRecyclerView.setAdapter(new MerchandiseAdapter(merchandises));*/
 
         return view;
     }
@@ -34,6 +42,10 @@ public class MerchandiseListFragment extends Fragment {
     private class MerchandiseAdapter extends RecyclerView.Adapter<MerchandiseViewHolder>{
 
         private List<Merchandise> mMerchandises;
+
+        public MerchandiseAdapter(List<Merchandise> merchandises) {
+            mMerchandises = merchandises;
+        }
 
         @Override
         public MerchandiseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -51,7 +63,7 @@ public class MerchandiseListFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return 0;
+            return mMerchandises.size();
         }
     }
 
@@ -72,7 +84,7 @@ public class MerchandiseListFragment extends Fragment {
 
         public void bind(Merchandise merchandise) {
             mTitle.setText(merchandise.getTitle());
-            mPrice.setText(merchandise.getPrice());
+            mPrice.setText(merchandise.getPrice()+"");
             mDescribe.setText(merchandise.getDescribe());
         }
     }
