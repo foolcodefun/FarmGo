@@ -1,0 +1,143 @@
+{
+  "project_info": {
+    "project_number": "1023638639173",
+    "firebase_url": "https://farmshop-a5d17.firebaseio.com",
+    "project_id": "farmshop-a5d17",
+    "storage_bucket": "farmshop-a5d17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1023638639173:android:d5e5c5d6ca915712",
+        "android_client_info": {
+          "package_name": "com.little.farmshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1023638639173-hvra2p0tcsmdfbehpil8uu0bfpeq469f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.little.farmshop",
+            "certificate_hash": "89589b142a341937c3a61c43b3b01d5f35afa3e0"
+          }
+        },
+        {
+          "client_id": "1023638639173-h1ii4gavcmcd0gmd4i7knc10of5t9m8g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAmK2FBJik9SnOgxbnlxZLtkzYVbW8Vss"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1023638639173-h1ii4gavcmcd0gmd4i7knc10of5t9m8g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1023638639173:android:43f4d1cf08f6fc9e",
+        "android_client_info": {
+          "package_name": "com.little.farmdemo20180214"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1023638639173-dktva3mavgo7k4kfjbih9tdeqv3urhu7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.little.farmdemo20180214",
+            "certificate_hash": "89589b142a341937c3a61c43b3b01d5f35afa3e0"
+          }
+        },
+        {
+          "client_id": "1023638639173-h1ii4gavcmcd0gmd4i7knc10of5t9m8g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAmK2FBJik9SnOgxbnlxZLtkzYVbW8Vss"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1023638639173-h1ii4gavcmcd0gmd4i7knc10of5t9m8g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1023638639173:android:363ff3815b9ea1fa",
+        "android_client_info": {
+          "package_name": "com.little.farmgo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1023638639173-n8sh2g14ca27spj5smhmkjqvat0bt77v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.little.farmgo",
+            "certificate_hash": "89589b142a341937c3a61c43b3b01d5f35afa3e0"
+          }
+        },
+        {
+          "client_id": "1023638639173-h1ii4gavcmcd0gmd4i7knc10of5t9m8g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAmK2FBJik9SnOgxbnlxZLtkzYVbW8Vss"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1023638639173-h1ii4gavcmcd0gmd4i7knc10of5t9m8g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
