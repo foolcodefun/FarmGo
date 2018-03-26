@@ -1,7 +1,5 @@
 package com.little.farmgo.Data;
 
-import java.net.URL;
-
 /**
  * Created by sarah on 22/03/2018.
  */
@@ -10,9 +8,9 @@ public class Merchandise {
     private String mTitle;
     private int mPrice;
     private String Describe;
-    private URL mImageURL;
+    private String mImageURL;
 
-    public Merchandise(String title, int price, String describe, URL imageURL) {
+    public Merchandise(String title, int price, String describe, String imageURL) {
         mTitle = title;
         mPrice = price;
         Describe = describe;
@@ -43,11 +41,11 @@ public class Merchandise {
         Describe = describe;
     }
 
-    public URL getImageURL() {
+    public String getImageURL() {
         return mImageURL;
     }
 
-    public void setImageURL(URL imageURL) {
+    public void setImageURL(String imageURL) {
         mImageURL = imageURL;
     }
 }

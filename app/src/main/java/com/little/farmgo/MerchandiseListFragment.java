@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.little.farmgo.Data.Merchandise;
 
 import java.util.ArrayList;
@@ -28,18 +29,25 @@ public class MerchandiseListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_merchandise_list,container,false);
+        View view = inflater.inflate(R.layout.fragment_merchandise_list, container, false);
         mRecyclerView = view.findViewById(R.id.recyclerView);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        /*List<Merchandise> merchandises = new ArrayList<>();
-        merchandises.add(new Merchandise("#1",10,"delicious",null));
-        merchandises.add(new Merchandise("#2",20,"delicious",null));
-        mRecyclerView.setAdapter(new MerchandiseAdapter(merchandises));*/
 
         return view;
     }
 
-    private class MerchandiseAdapter extends RecyclerView.Adapter<MerchandiseViewHolder>{
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        /*List<Merchandise> merchandises = new ArrayList<>();
+        merchandises.add(new Merchandise("#1",10,"delicious","https://firebasestorage.googleapis.com/v0/b/farmshop-a5d17.appspot.com/o/Screen%20Shot%202018-02-11%20at%203.29.52%20PM.png?alt=media&token=00142343-70da-40e3-9a4e-acc406031e4b"));
+        merchandises.add(new Merchandise("#2",20,"delicious","https://firebasestorage.googleapis.com/v0/b/farmshop-a5d17.appspot.com/o/Screen%20Shot%202018-02-11%20at%203.29.52%20PM.png?alt=media&token=00142343-70da-40e3-9a4e-acc406031e4b"));
+        mRecyclerView.setAdapter(new MerchandiseAdapter(merchandises));*/
+
+    }
+
+    private class MerchandiseAdapter extends RecyclerView.Adapter<MerchandiseViewHolder> {
 
         private List<Merchandise> mMerchandises;
 
@@ -50,7 +58,7 @@ public class MerchandiseListFragment extends Fragment {
         @Override
         public MerchandiseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(getActivity())
-                    .inflate(R.layout.merchandise_item,parent,false);
+                    .inflate(R.layout.merchandise_item, parent, false);
             MerchandiseViewHolder viewHolder = new MerchandiseViewHolder(view);
             return viewHolder;
         }
@@ -67,7 +75,7 @@ public class MerchandiseListFragment extends Fragment {
         }
     }
 
-    private class MerchandiseViewHolder extends RecyclerView.ViewHolder{
+    private class MerchandiseViewHolder extends RecyclerView.ViewHolder {
 
         TextView mTitle;
         TextView mPrice;
@@ -84,8 +92,11 @@ public class MerchandiseListFragment extends Fragment {
 
         public void bind(Merchandise merchandise) {
             mTitle.setText(merchandise.getTitle());
-            mPrice.setText(merchandise.getPrice()+"");
+            mPrice.setText(merchandise.getPrice() + "");
             mDescribe.setText(merchandise.getDescribe());
+            Glide.with(itemView)
+                    .load(merchandise.getImageURL())
+                    .into(mImage);
         }
     }
 }
