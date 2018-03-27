@@ -4,4 +4,5 @@
     <string name="member">會員</string>
     <string name="shopping_cart">購物車</string>
     <string name="purchase_records">記錄</string>
+    <string name="dollar">元</string>
 </resources>

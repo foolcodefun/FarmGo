@@ -138,7 +138,7 @@ public class MerchandiseListFragment extends Fragment {
 
         public void bind(Merchandise merchandise) {
             mTitle.setText(merchandise.getTitle());
-            mPrice.setText(merchandise.getPrice() + "");
+            mPrice.setText(merchandise.getPrice() + getString(R.string.dollar));
             mSubtitle.setText(merchandise.getSubtitle());
             Glide.with(itemView)
                     .load(merchandise.getImageURL())
