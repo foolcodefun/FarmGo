@@ -8,4 +8,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="SingInEditText" >
+        <item name="android:background" >@color/white</item>
+        <item name="android:textColor">@color/bg_sign_in</item>
+        <item name="android:textColorHint">@color/sign_in_hint</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="SignInButton">
+        <item name="android:background">@color/white</item>
+        <item name="android:textColor">@color/bg_sign_in</item>
+    </style>
+
 </resources>

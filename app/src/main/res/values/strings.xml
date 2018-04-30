@@ -5,4 +5,8 @@
     <string name="shopping_cart">購物車</string>
     <string name="purchase_records">記錄</string>
     <string name="dollar">元</string>
+    <string name="sign_up_a_member">沒有會員？馬上註冊！</string>
+    <string name="sign_in">登入</string>
+    <string name="email">電子郵件</string>
+    <string name="password">密碼</string>
 </resources>
