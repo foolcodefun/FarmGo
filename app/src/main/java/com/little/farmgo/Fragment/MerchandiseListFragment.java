@@ -1,4 +1,4 @@
-package com.little.farmgo;
+package com.little.farmgo.Fragment;
 
 
 import android.os.Bundle;
@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.little.farmgo.Data.Merchandise;
+import com.little.farmgo.R;
 
 import java.util.ArrayList;
 import java.util.List;
