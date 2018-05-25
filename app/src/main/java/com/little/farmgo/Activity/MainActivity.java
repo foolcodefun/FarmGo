@@ -1,11 +1,13 @@
 package com.little.farmgo.Activity;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.little.farmgo.Fragment.MerchandiseListFragment;
@@ -49,4 +51,21 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
         return true;
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.sign_in_or_out)
+            startActivity(new Intent(
+                    MainActivity.this
+                    ,SignInActivity.class));
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }
