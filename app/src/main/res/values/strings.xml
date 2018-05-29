@@ -12,4 +12,5 @@
     <string name="countryIsoTaiwan">TW</string>
     <string name="signOutOrNot">是否確定要登出</string>
     <string name="deleteAccount">刪除帳號</string>
+    <string name="deleteAccountOrNot">是否要刪除帳號</string>
 </resources>

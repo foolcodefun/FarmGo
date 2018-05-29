@@ -15,7 +15,12 @@ import android.view.MenuItem;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
-import com.little.farmgo.Fragment.MerchandiseListFragment;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.little.farmgo.Data.User;
+import com.little.farmgo.Fragment.ProductListFragment;
 import com.little.farmgo.R;
 
 import java.util.Arrays;
@@ -42,7 +47,7 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(R.id.container);
         if (fragment == null) {
-            fragment = new MerchandiseListFragment();
+            fragment = new ProductListFragment();
             fragmentManager.beginTransaction()
                     .add(R.id.container, fragment)
                     .commit();
@@ -100,8 +105,7 @@ public class MainActivity extends AppCompatActivity
             sign.setTitle(R.string.signOut);
             delete.setVisible(true);
             delete.setTitle(R.string.deleteAccount);
-        }
-        else {
+        } else {
             sign.setTitle(R.string.signIn);
             delete.setVisible(false);
         }
@@ -115,9 +119,18 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void deleteAccount(MenuItem item) {
-        if(item.getItemId()== R.id.delete_account){
-            mAuth.getCurrentUser().delete();
+    private void deleteAccount(final MenuItem item) {
+        if (item.getItemId() == R.id.delete_account) {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.deleteAccountOrNot)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            mAuth.getCurrentUser().delete();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .show();
         }
     }
 
@@ -125,7 +138,6 @@ public class MainActivity extends AppCompatActivity
         if (item.getItemId() == R.id.sign_in_or_out) {
             if (mAuth.getCurrentUser() != null) {
                 showSignAlertDialog();
-                mAuth.signOut();
             } else {
                 startActivityForResult(AuthUI.getInstance()
                         .createSignInIntentBuilder()
@@ -149,17 +161,40 @@ public class MainActivity extends AppCompatActivity
                         mAuth.signOut();
                     }
                 })
-                .setNegativeButton(android.R.string.no,null)
+                .setNegativeButton(android.R.string.no, null)
                 .show();
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != RESULT_OK)
             return;
         if (requestCode == RC_SIGN_IN) {
+            FirebaseDatabase.getInstance().getReference()
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            String phone = (String)dataSnapshot
+                                    .child("users")
+                                    .child(mAuth.getUid())
+                                    .child("phone")
+                                    .getValue();
+                            if(phone==null){
+                                User user = new User();
+                                user.setPhone(mAuth.getCurrentUser().getPhoneNumber());
+                                FirebaseDatabase.getInstance().getReference()
+                                        .child("users")
+                                        .child(mAuth.getUid())
+                                        .setValue(user);
+                            }
+                        }
 
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
         }
 
     }

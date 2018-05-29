@@ -18,7 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.little.farmgo.Data.Merchandise;
+import com.little.farmgo.Data.Product;
 import com.little.farmgo.R;
 
 import java.util.ArrayList;
@@ -28,20 +28,20 @@ import java.util.List;
  * Created by sarah on 22/03/2018.
  */
 
-public class MerchandiseListFragment extends Fragment {
+public class ProductListFragment extends Fragment {
 
     private RecyclerView mMerchandisesView;
     private MerchandiseAdapter mMerchandiseAdapter;
 
     private DatabaseReference mDbRootRef = FirebaseDatabase.getInstance().getReference();
-    private DatabaseReference mDbMerchandises = mDbRootRef.child(Merchandise.PRODUCTS);
+    private DatabaseReference mDbMerchandises = mDbRootRef.child(Product.PRODUCTS);
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_merchandise_list, container, false);
         mMerchandisesView = view.findViewById(R.id.recyclerView);
-        mMerchandiseAdapter = new MerchandiseAdapter(new ArrayList<Merchandise>());
+        mMerchandiseAdapter = new MerchandiseAdapter(new ArrayList<Product>());
         return view;
     }
 
@@ -59,12 +59,14 @@ public class MerchandiseListFragment extends Fragment {
         mDbMerchandises.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                String title = (String) dataSnapshot.child(Merchandise.TITLE).getValue();
-                long price = (long)dataSnapshot.child(Merchandise.PRICE).getValue();
-                String subtitle =  (String)dataSnapshot.child(Merchandise.SUBTITLE).getValue();
-                String imageURL = (String)dataSnapshot.child(Merchandise.IMAGE_URL).getValue();
-                Merchandise merchandise = new Merchandise(title,price,subtitle,imageURL);
-                mMerchandiseAdapter.add(merchandise);
+
+                /*String title = (String) dataSnapshot.child(Product.TITLE).getValue();
+                long price = (long)dataSnapshot.child(Product.PRICE).getValue();
+                String subtitle =  (String)dataSnapshot.child(Product.SUBTITLE).getValue();
+                String imageURL = (String)dataSnapshot.child(Product.IMAGE_URL).getValue();
+                Product product = new Product(title,price,subtitle,imageURL);*/
+                Product product = dataSnapshot.getValue(Product.class);
+                mMerchandiseAdapter.add(product);
             }
 
             @Override
@@ -91,15 +93,15 @@ public class MerchandiseListFragment extends Fragment {
 
     private class MerchandiseAdapter extends RecyclerView.Adapter<MerchandiseViewHolder> {
 
-        private List<Merchandise> mMerchandises;
+        private List<Product> mProducts;
 
-        public MerchandiseAdapter(List<Merchandise> merchandises) {
-            mMerchandises = merchandises;
+        public MerchandiseAdapter(List<Product> products) {
+            mProducts = products;
         }
 
-        public void add(Merchandise merchandise){
-            mMerchandises.add(merchandise);
-            notifyItemChanged(mMerchandises.size());
+        public void add(Product product){
+            mProducts.add(product);
+            notifyItemChanged(mProducts.size());
         }
 
         @Override
@@ -112,13 +114,13 @@ public class MerchandiseListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(MerchandiseViewHolder holder, int position) {
-            Merchandise merchandise = mMerchandises.get(position);
-            holder.bind(merchandise);
+            Product product = mProducts.get(position);
+            holder.bind(product);
         }
 
         @Override
         public int getItemCount() {
-            return mMerchandises.size();
+            return mProducts.size();
         }
     }
 
@@ -137,12 +139,12 @@ public class MerchandiseListFragment extends Fragment {
             mImage = itemView.findViewById(R.id.imageView);
         }
 
-        public void bind(Merchandise merchandise) {
-            mTitle.setText(merchandise.getTitle());
-            mPrice.setText(merchandise.getPrice() + getString(R.string.dollar));
-            mSubtitle.setText(merchandise.getSubtitle());
+        public void bind(Product product) {
+            mTitle.setText(product.getTitle());
+            mPrice.setText(product.getPrice() + getString(R.string.dollar));
+            mSubtitle.setText(product.getSubtitle());
             Glide.with(itemView)
-                    .load(merchandise.getImageURL())
+                    .load(product.getImage_url())
                     .into(mImage);
         }
     }
