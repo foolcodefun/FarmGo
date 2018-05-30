@@ -2,6 +2,7 @@ package com.little.farmgo.Fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,108 +33,66 @@ import java.util.List;
 
 public class ProductListFragment extends Fragment {
 
+    public static final String PRODUCTS = "products";
+
     private RecyclerView mMerchandisesView;
-    private MerchandiseAdapter mMerchandiseAdapter;
+    private FirebaseRecyclerAdapter mAdapter;
 
     private DatabaseReference mDbRootRef = FirebaseDatabase.getInstance().getReference();
-    private DatabaseReference mDbMerchandises = mDbRootRef.child(Product.PRODUCTS);
+    private DatabaseReference mDbMerchandises = mDbRootRef.child(PRODUCTS);
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_merchandise_list, container, false);
         mMerchandisesView = view.findViewById(R.id.recyclerView);
-        mMerchandiseAdapter = new MerchandiseAdapter(new ArrayList<Product>());
+
+        FirebaseRecyclerOptions<Product> options = new FirebaseRecyclerOptions.Builder<Product>().setQuery(mDbMerchandises,Product.class).build();
+        mAdapter = new FirebaseRecyclerAdapter<Product,ProductViewHolder>(options){
+
+            @Override
+            public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(getContext())
+                        .inflate(R.layout.merchandise_item,parent,false);
+                return new ProductViewHolder(view);
+            }
+
+            @Override
+            protected void onBindViewHolder(@NonNull ProductViewHolder holder, int position, @NonNull Product model) {
+                holder.bind(model);
+            }
+        };
+
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAdapter.startListening();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mAdapter.stopListening();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         mMerchandisesView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mMerchandisesView.setAdapter(mMerchandiseAdapter);
-        getFirebaseMerchandises();
-
+        mMerchandisesView.setAdapter(mAdapter);
     }
 
-    private void getFirebaseMerchandises(){
-        mDbMerchandises.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                /*String title = (String) dataSnapshot.child(Product.TITLE).getValue();
-                long price = (long)dataSnapshot.child(Product.PRICE).getValue();
-                String subtitle =  (String)dataSnapshot.child(Product.SUBTITLE).getValue();
-                String imageURL = (String)dataSnapshot.child(Product.IMAGE_URL).getValue();
-                Product product = new Product(title,price,subtitle,imageURL);*/
-                Product product = dataSnapshot.getValue(Product.class);
-                mMerchandiseAdapter.add(product);
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private class MerchandiseAdapter extends RecyclerView.Adapter<MerchandiseViewHolder> {
-
-        private List<Product> mProducts;
-
-        public MerchandiseAdapter(List<Product> products) {
-            mProducts = products;
-        }
-
-        public void add(Product product){
-            mProducts.add(product);
-            notifyItemChanged(mProducts.size());
-        }
-
-        @Override
-        public MerchandiseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getActivity())
-                    .inflate(R.layout.merchandise_item, parent, false);
-            MerchandiseViewHolder viewHolder = new MerchandiseViewHolder(view);
-            return viewHolder;
-        }
-
-        @Override
-        public void onBindViewHolder(MerchandiseViewHolder holder, int position) {
-            Product product = mProducts.get(position);
-            holder.bind(product);
-        }
-
-        @Override
-        public int getItemCount() {
-            return mProducts.size();
-        }
-    }
-
-    private class MerchandiseViewHolder extends RecyclerView.ViewHolder {
+    private class ProductViewHolder extends RecyclerView.ViewHolder {
 
         TextView mTitle;
         TextView mPrice;
         TextView mSubtitle;
         ImageView mImage;
 
-        public MerchandiseViewHolder(View itemView) {
+        public ProductViewHolder(View itemView) {
             super(itemView);
             mTitle = itemView.findViewById(R.id.title);
             mPrice = itemView.findViewById(R.id.price);

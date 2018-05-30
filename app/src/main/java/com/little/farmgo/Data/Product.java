@@ -6,14 +6,8 @@ package com.little.farmgo.Data;
 
 public class Product {
 
-    public static final String PRODUCTS = "products";
-    public static final String TITLE = "title";
-    public static final String SUBTITLE = "subtitle";
-    public static final String IMAGE_URL = "image_url";
-    public static final String PRICE = "price";
-
     private String title;
-    private long price;
+    private int price;
     private String subtitle;
     private String image_url;
 
@@ -21,7 +15,7 @@ public class Product {
 
     }
 
-    public Product(String title, long price, String mSubtitle, String imageURL) {
+    public Product(String title, int price, String mSubtitle, String imageURL) {
         this.title = title;
         this.price = price;
         this.subtitle = mSubtitle;
@@ -36,7 +30,7 @@ public class Product {
         this.title = title;
     }
 
-    public long getPrice() {
+    public int getPrice() {
         return price;
     }
 
