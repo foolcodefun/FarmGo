@@ -1,6 +1,7 @@
 package com.little.farmgo.Fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,16 +17,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.little.farmgo.Activity.ProductDetailActivity;
 import com.little.farmgo.Data.Product;
 import com.little.farmgo.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by sarah on 22/03/2018.
@@ -35,20 +31,20 @@ public class ProductListFragment extends Fragment {
 
     public static final String PRODUCTS = "products";
 
-    private RecyclerView mMerchandisesView;
-    private FirebaseRecyclerAdapter mAdapter;
+    private RecyclerView merchandisesView;
+    private FirebaseRecyclerAdapter productAdapter;
 
-    private DatabaseReference mDbRootRef = FirebaseDatabase.getInstance().getReference();
-    private DatabaseReference mDbMerchandises = mDbRootRef.child(PRODUCTS);
+    private DatabaseReference dbRootRef = FirebaseDatabase.getInstance().getReference();
+    private DatabaseReference dbMerchandises = dbRootRef.child(PRODUCTS);
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_merchandise_list, container, false);
-        mMerchandisesView = view.findViewById(R.id.recyclerView);
+        merchandisesView = view.findViewById(R.id.recyclerView);
 
-        FirebaseRecyclerOptions<Product> options = new FirebaseRecyclerOptions.Builder<Product>().setQuery(mDbMerchandises,Product.class).build();
-        mAdapter = new FirebaseRecyclerAdapter<Product,ProductViewHolder>(options){
+        FirebaseRecyclerOptions<Product> options = new FirebaseRecyclerOptions.Builder<Product>().setQuery(dbMerchandises,Product.class).build();
+        productAdapter = new FirebaseRecyclerAdapter<Product,ProductViewHolder>(options){
 
             @Override
             public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -69,28 +65,29 @@ public class ProductListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mAdapter.startListening();
+        productAdapter.startListening();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mAdapter.stopListening();
+        productAdapter.stopListening();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mMerchandisesView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mMerchandisesView.setAdapter(mAdapter);
+        merchandisesView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        merchandisesView.setAdapter(productAdapter);
     }
 
-    private class ProductViewHolder extends RecyclerView.ViewHolder {
+    private class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView mTitle;
         TextView mPrice;
         TextView mSubtitle;
         ImageView mImage;
+        Product mProduct;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
@@ -98,15 +95,23 @@ public class ProductListFragment extends Fragment {
             mPrice = itemView.findViewById(R.id.price);
             mSubtitle = itemView.findViewById(R.id.subtitle);
             mImage = itemView.findViewById(R.id.imageView);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(Product product) {
+            mProduct=product;
             mTitle.setText(product.getTitle());
             mPrice.setText(product.getPrice() + getString(R.string.dollar));
             mSubtitle.setText(product.getSubtitle());
             Glide.with(itemView)
                     .load(product.getImage_url())
                     .into(mImage);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = ProductDetailActivity.newIntent(getContext(),mProduct);
+            startActivity(intent);
         }
     }
 }

@@ -31,18 +31,18 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int RC_SIGN_IN = 23;
-    private BottomNavigationView mNavigationView;
-    private FirebaseAuth mAuth;
+    private BottomNavigationView navigationView;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAuth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
 
-        mNavigationView = findViewById(R.id.bottom_view);
-        mNavigationView.setOnNavigationItemSelectedListener(this);
+        navigationView = findViewById(R.id.bottom_view);
+        navigationView.setOnNavigationItemSelectedListener(this);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(R.id.container);
@@ -57,13 +57,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        mAuth.addAuthStateListener(this);
+        auth.addAuthStateListener(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mAuth.removeAuthStateListener(this);
+        auth.removeAuthStateListener(this);
     }
 
     @Override
@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.homepage:
+                replaceFragment(new ProductListFragment());
                 break;
             case R.id.member_data:
                 break;
@@ -86,6 +87,12 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
         return true;
+    }
+
+    private void replaceFragment(Fragment fragment){
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit();
     }
 
     @Override
@@ -101,7 +108,7 @@ public class MainActivity extends AppCompatActivity
     private void setItemsTitles(Menu menu) {
         MenuItem sign = menu.findItem(R.id.sign_in_or_out);
         MenuItem delete = menu.findItem(R.id.delete_account);
-        if (mAuth.getCurrentUser() != null) {
+        if (auth.getCurrentUser() != null) {
             sign.setTitle(R.string.signOut);
             delete.setVisible(true);
             delete.setTitle(R.string.deleteAccount);
@@ -126,7 +133,7 @@ public class MainActivity extends AppCompatActivity
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            mAuth.getCurrentUser().delete();
+                            auth.getCurrentUser().delete();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)
@@ -136,7 +143,7 @@ public class MainActivity extends AppCompatActivity
 
     private void signInOrOut(MenuItem item) {
         if (item.getItemId() == R.id.sign_in_or_out) {
-            if (mAuth.getCurrentUser() != null) {
+            if (auth.getCurrentUser() != null) {
                 showSignAlertDialog();
             } else {
                 startActivityForResult(AuthUI.getInstance()
@@ -158,7 +165,7 @@ public class MainActivity extends AppCompatActivity
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        mAuth.signOut();
+                        auth.signOut();
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)
@@ -177,15 +184,15 @@ public class MainActivity extends AppCompatActivity
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             String phone = (String)dataSnapshot
                                     .child("users")
-                                    .child(mAuth.getUid())
+                                    .child(auth.getUid())
                                     .child("phone")
                                     .getValue();
                             if(phone==null){
                                 User user = new User();
-                                user.setPhone(mAuth.getCurrentUser().getPhoneNumber());
+                                user.setPhone(auth.getCurrentUser().getPhoneNumber());
                                 FirebaseDatabase.getInstance().getReference()
                                         .child("users")
-                                        .child(mAuth.getUid())
+                                        .child(auth.getUid())
                                         .setValue(user);
                             }
                         }

@@ -13,4 +13,5 @@
     <string name="signOutOrNot">是否確定要登出</string>
     <string name="deleteAccount">刪除帳號</string>
     <string name="deleteAccountOrNot">是否要刪除帳號</string>
+    <string name="add_cart">加入購物車</string>
 </resources>
