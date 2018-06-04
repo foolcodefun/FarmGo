@@ -9,10 +9,10 @@
         android:title="@string/home_page"/>
 
     <item
-        android:id="@+id/member_data"
+        android:id="@+id/chat"
         android:enabled="true"
-        android:icon="@drawable/member_data"
-        android:title="@string/member"/>
+        android:icon="@drawable/chat"
+        android:title="@string/chat"/>
 
     <item
         android:id="@+id/shopping_cart"

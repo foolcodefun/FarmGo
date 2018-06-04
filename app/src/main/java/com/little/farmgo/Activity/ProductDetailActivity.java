@@ -42,9 +42,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         title.setText(product.getTitle());
         subtitle.setText(product.getSubtitle());
         price.setText("單價："+product.getPrice()+"元");
-        number.setText("剩餘數量"+product.getNumber());
+        number.setText("剩餘數量："+product.getNumber());
         description.setText(product.getDescription());
-        origin.setText(product.getOrigin());
+        origin.setText("產地："+product.getOrigin());
 
         Glide.with(getApplicationContext())
                 .load(product.getImage_url())

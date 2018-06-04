@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.homepage:
                 replaceFragment(new ProductListFragment());
                 break;
-            case R.id.member_data:
+            case R.id.chat:
                 break;
             case R.id.shopping_cart:
                 break;
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void replaceFragment(Fragment fragment){
+    private void replaceFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, fragment)
                 .commit();
@@ -108,54 +109,66 @@ public class MainActivity extends AppCompatActivity
     private void setItemsTitles(Menu menu) {
         MenuItem sign = menu.findItem(R.id.sign_in_or_out);
         MenuItem delete = menu.findItem(R.id.delete_account);
+        MenuItem member = menu.findItem(R.id.member_data);
         if (auth.getCurrentUser() != null) {
             sign.setTitle(R.string.signOut);
             delete.setVisible(true);
             delete.setTitle(R.string.deleteAccount);
+            member.setTitle(R.string.edit_member_data);
         } else {
             sign.setTitle(R.string.signIn);
             delete.setVisible(false);
+            member.setVisible(false);
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.d(TAG, "onOptionsItemSelected: ");
-        signInOrOut(item);
-        deleteAccount(item);
+        switch (item.getItemId()) {
+            case R.id.sign_in_or_out:
+                signInOrOut(item);
+                break;
+            case R.id.delete_account:
+                deleteAccount(item);
+                break;
+            case R.id.member_data:
+                editMemberData(item);
+        }
         return true;
     }
 
+
+    private void editMemberData(MenuItem item) {
+        //TODO: start an activity to edit member's data
+    }
+
     private void deleteAccount(final MenuItem item) {
-        if (item.getItemId() == R.id.delete_account) {
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.deleteAccountOrNot)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            auth.getCurrentUser().delete();
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, null)
-                    .show();
-        }
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.deleteAccountOrNot)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        auth.getCurrentUser().delete();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .show();
     }
 
     private void signInOrOut(MenuItem item) {
-        if (item.getItemId() == R.id.sign_in_or_out) {
-            if (auth.getCurrentUser() != null) {
-                showSignAlertDialog();
-            } else {
-                startActivityForResult(AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setTheme(R.style.AppTheme)
-                        .setAvailableProviders(Arrays.asList(
-                                new AuthUI.IdpConfig.PhoneBuilder().
-                                        setDefaultCountryIso(getString(R.string.countryIsoTaiwan))
-                                        .build())
-                        ).build(), RC_SIGN_IN
-                );
-            }
+        if (auth.getCurrentUser() != null) {
+            showSignAlertDialog();
+        } else {
+            startActivityForResult(AuthUI.getInstance()
+                    .createSignInIntentBuilder()
+                    .setTheme(R.style.AppTheme)
+                    .setAvailableProviders(Arrays.asList(
+                            new AuthUI.IdpConfig.PhoneBuilder().
+                                    setDefaultCountryIso(getString(R.string.countryIsoTaiwan))
+                                    .build())
+                    ).build(), RC_SIGN_IN
+            );
         }
     }
 
@@ -166,6 +179,8 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         auth.signOut();
+                        Toast.makeText(getApplicationContext()
+                                , R.string.signed_out,Toast.LENGTH_LONG);
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)
@@ -182,12 +197,12 @@ public class MainActivity extends AppCompatActivity
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            String phone = (String)dataSnapshot
+                            String phone = (String) dataSnapshot
                                     .child("users")
                                     .child(auth.getUid())
                                     .child("phone")
                                     .getValue();
-                            if(phone==null){
+                            if (phone == null) {
                                 User user = new User();
                                 user.setPhone(auth.getCurrentUser().getPhoneNumber());
                                 FirebaseDatabase.getInstance().getReference()
