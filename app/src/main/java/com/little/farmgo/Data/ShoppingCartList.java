@@ -8,15 +8,27 @@ import java.util.ArrayList;
 
 public class ShoppingCartList {
 
-    private static ShoppingCartList shoppingCartList;
-    private static ArrayList<Order> orders;
+    private static ShoppingCartList shoppingCartList = new ShoppingCartList();
+    private ArrayList<ShoppingCartOrder> orders;
 
     private ShoppingCartList(){}
 
     private static ShoppingCartList getInstance(){
         if(shoppingCartList==null){
-            shoppingCartList = new ShoppingCartList();
+            synchronized (ShoppingCartList.class){
+                if(shoppingCartList==null){
+                    shoppingCartList = new ShoppingCartList();
+                }
+            }
         }
         return shoppingCartList;
+    }
+
+    public void add(ShoppingCartOrder order){
+        orders.add(order);
+    }
+
+    public boolean remove(ShoppingCartOrder order){
+        return orders.remove(order);
     }
 }

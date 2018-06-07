@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.little.farmgo.Data.User;
 import com.little.farmgo.Fragment.ProductListFragment;
+import com.little.farmgo.Fragment.ShoppingCartFragment;
 import com.little.farmgo.R;
 
 import java.util.Arrays;
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.chat:
                 break;
             case R.id.shopping_cart:
+                replaceFragment(new ShoppingCartFragment());
                 break;
             case R.id.purchase_records:
                 break;

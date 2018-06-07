@@ -26,6 +26,9 @@
             android:name=".Activity.ProductDetailActivity"
             android:parentActivityName=".Activity.MainActivity">
         </activity>
+        <service android:name=".Data.ShoppingCartService">
+            
+        </service>
     </application>
 
 </manifest>
