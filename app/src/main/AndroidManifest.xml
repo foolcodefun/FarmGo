@@ -26,9 +26,15 @@
             android:name=".Activity.ProductDetailActivity"
             android:parentActivityName=".Activity.MainActivity">
         </activity>
-        <service android:name=".Data.ShoppingCartService">
-            
+        <service
+            android:name=".Data.ShoppingCartService"
+            android:exported="false">
         </service>
+        <provider
+            android:name=".Data.ShoppingCartProvider"
+            android:authorities="com.little.farmgo"
+            android:exported="false">
+        </provider>
     </application>
 
 </manifest>

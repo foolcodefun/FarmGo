@@ -1,5 +1,6 @@
 package com.little.farmgo.Data;
 
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
@@ -18,4 +19,11 @@ public final class DatabaseContract {
         public static final String COLUMN_IMAGE_URL = "image_url";
 
     }
+
+    public static String AUTHORITY = "com.little.farmgo";
+
+    public static Uri CONTENT_SHOPPING_CART_URI = new Uri.Builder().scheme("content")
+            .authority(AUTHORITY)
+            .appendPath(TABLE_SHOPPING_CART)
+            .build();
 }
