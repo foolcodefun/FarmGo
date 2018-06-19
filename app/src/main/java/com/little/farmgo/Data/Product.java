@@ -11,14 +11,12 @@ public class Product implements Parcelable {
 
     private String title;
     private int price;
-
     private int number;
-
     private String subtitle;
-
     private String image_url;
     private String description;
     private String origin;
+
     public Product(){
 
     }

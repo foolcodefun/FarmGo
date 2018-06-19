@@ -1,4 +1,4 @@
-package com.little.farmgo.Data;
+package com.little.farmgo.Data.ShoppingCart;
 
 import android.net.Uri;
 import android.provider.BaseColumns;

@@ -27,11 +27,11 @@
             android:parentActivityName=".Activity.MainActivity">
         </activity>
         <service
-            android:name=".Data.ShoppingCartService"
+            android:name=".Data.ShoppingCart.ShoppingCartService"
             android:exported="false">
         </service>
         <provider
-            android:name=".Data.ShoppingCartProvider"
+            android:name=".Data.ShoppingCart.ShoppingCartProvider"
             android:authorities="com.little.farmgo"
             android:exported="false">
         </provider>

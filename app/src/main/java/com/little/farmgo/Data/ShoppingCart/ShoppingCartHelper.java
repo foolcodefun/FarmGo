@@ -1,12 +1,12 @@
-package com.little.farmgo.Data;
+package com.little.farmgo.Data.ShoppingCart;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.little.farmgo.Data.DatabaseContract.ShoppingCartTable;
+import com.little.farmgo.Data.ShoppingCart.DatabaseContract.ShoppingCartTable;
 
-import static com.little.farmgo.Data.DatabaseContract.*;
+import static com.little.farmgo.Data.ShoppingCart.DatabaseContract.*;
 
 /**
  * Created by sarah on 05/06/2018.

@@ -1,4 +1,4 @@
-package com.little.farmgo.Data;
+package com.little.farmgo.Data.ShoppingCart;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -9,6 +9,9 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.little.farmgo.Data.ShoppingCart.DatabaseContract;
+import com.little.farmgo.Data.ShoppingCart.ShoppingCartHelper;
+
 /**
  * Created by sarah on 07/06/2018.
  */
@@ -17,15 +20,15 @@ public class ShoppingCartProvider extends ContentProvider {
 
     private ShoppingCartHelper mHelper;
 
-    private UriMatcher mUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+    private static UriMatcher mUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     private static final int URI_WITH_ID = 10;
 
     private static final int URI_WITHOUT_ID = 11;
 
-    {
+    static {
         mUriMatcher.addURI(DatabaseContract.AUTHORITY
-                , DatabaseContract.TABLE_SHOPPING_CART
+                , DatabaseContract.TABLE_SHOPPING_CART+"/#"
                 , URI_WITH_ID);
 
         mUriMatcher.addURI(DatabaseContract.AUTHORITY
@@ -48,15 +51,15 @@ public class ShoppingCartProvider extends ContentProvider {
             case URI_WITH_ID:
                 //TODO
                 long id = ContentUris.parseId(uri);
-                selection = selection == null ? DatabaseContract.TABLE_SHOPPING_CART + " = " + id
-                        : selection + " AND " + DatabaseContract.TABLE_SHOPPING_CART + " = " + id;
+                selection = selection == null ? DatabaseContract.ShoppingCartTable._ID + " = " + id
+                        : selection + " AND " + DatabaseContract.ShoppingCartTable._ID + " = " + id;
                 break;
             case URI_WITHOUT_ID:
                 break;
             default:
                 break;
         }
-        mHelper.getReadableDatabase()
+        cursor = mHelper.getReadableDatabase()
                 .query(DatabaseContract.TABLE_SHOPPING_CART
                         , projection, selection, selectionArgs, null, null, sortOrder);
         return cursor;
@@ -79,16 +82,30 @@ public class ShoppingCartProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
+        int match = mUriMatcher.match(uri);
+        switch (mUriMatcher.match(uri)) {
+            case URI_WITH_ID:
+                long id = ContentUris.parseId(uri);
+                selection = selection == null ? DatabaseContract.ShoppingCartTable._ID + " = " + id
+                        : selection + " AND " + DatabaseContract.ShoppingCartTable._ID + " = " + id;
+                break;
+            case URI_WITHOUT_ID:
+                break;
+            default:
+                break;
+        }
         return mHelper.getWritableDatabase()
                 .delete(DatabaseContract.TABLE_SHOPPING_CART
-                        , selection, selectionArgs);
+                        , selection
+                        , selectionArgs);
     }
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
         //TODO 數量改變時
         return mHelper.getWritableDatabase()
-                .delete(DatabaseContract.TABLE_SHOPPING_CART
+                .update(DatabaseContract.TABLE_SHOPPING_CART
+                        , values
                         , selection
                         , selectionArgs);
     }
