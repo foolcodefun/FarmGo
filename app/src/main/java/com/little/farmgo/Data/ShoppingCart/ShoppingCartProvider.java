@@ -82,7 +82,6 @@ public class ShoppingCartProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        int match = mUriMatcher.match(uri);
         switch (mUriMatcher.match(uri)) {
             case URI_WITH_ID:
                 long id = ContentUris.parseId(uri);

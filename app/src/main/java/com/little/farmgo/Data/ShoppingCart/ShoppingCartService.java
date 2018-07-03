@@ -49,7 +49,7 @@ public class ShoppingCartService extends IntentService {
                 values = intent.getParcelableExtra(CONTENT_VALUES);
                 where = intent.getStringExtra(WHERE);
                 selectionArgs = intent.getStringArrayExtra(SELECTION_ARGS);
-                getContentResolver().update(DatabaseContract.CONTENT_SHOPPING_CART_URI, values, where, selectionArgs);
+                int update = getContentResolver().update(DatabaseContract.CONTENT_SHOPPING_CART_URI, values, where, selectionArgs);
                 break;
             case DELETE:
                 where = intent.getStringExtra(WHERE);

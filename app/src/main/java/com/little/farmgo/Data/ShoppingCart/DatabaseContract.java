@@ -18,6 +18,7 @@ public final class DatabaseContract {
         public static final String COLUMN_NUMBER = "number";
         public static final String COLUMN_IMAGE_URL = "image_url";
 
+        public static final String COLUMN_PRODUCT_SUBTITLE = "subtitle";
     }
 
     public static String AUTHORITY = "com.little.farmgo";

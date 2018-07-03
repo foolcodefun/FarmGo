@@ -3,12 +3,12 @@ package com.little.farmgo.Data.ShoppingCart;
 import android.content.ContentValues;
 import android.content.Context;
 
-import java.util.ArrayList;
+import com.little.farmgo.Data.Product;
 
-import static com.little.farmgo.Data.ShoppingCart.DatabaseContract.ShoppingCartTable.COLUMN_IMAGE_URL;
-import static com.little.farmgo.Data.ShoppingCart.DatabaseContract.ShoppingCartTable.COLUMN_NUMBER;
-import static com.little.farmgo.Data.ShoppingCart.DatabaseContract.ShoppingCartTable.COLUMN_PRODUCT_PRICE;
-import static com.little.farmgo.Data.ShoppingCart.DatabaseContract.ShoppingCartTable.COLUMN_PRODUCT_TITLE;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import static com.little.farmgo.Data.ShoppingCart.DatabaseContract.ShoppingCartTable;
 
 /**
  * Created by sarah on 05/06/2018.
@@ -17,53 +17,24 @@ import static com.little.farmgo.Data.ShoppingCart.DatabaseContract.ShoppingCartT
 public class ShoppingCartList {
 
     private static ShoppingCartList shoppingCartList;
-    private ArrayList<ShoppingCartOrder> orders;
-    private Context mContext;
+    private HashMap<Product,Integer> orders;
 
-    private ShoppingCartList(Context context) {
-        mContext = context;
+    private ShoppingCartList() {
+        orders = new HashMap<Product,Integer>();
     }
 
-    public static ShoppingCartList getInstance(Context context) {
+    public static ShoppingCartList getInstance() {
         if (shoppingCartList == null) {
             synchronized (ShoppingCartList.class) {
                 if (shoppingCartList == null) {
-                    shoppingCartList = new ShoppingCartList(context);
+                    shoppingCartList = new ShoppingCartList();
                 }
             }
         }
         return shoppingCartList;
     }
 
-    public ArrayList<ShoppingCartOrder> getOrders() {
+    public HashMap<Product,Integer> getOrders() {
         return orders;
-    }
-
-    public void add(ShoppingCartOrder order) {
-
-        orders.add(order);
-
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_IMAGE_URL, order.getProduct().getImage_url());
-        values.put(COLUMN_NUMBER, order.getNumber());
-        values.put(COLUMN_PRODUCT_PRICE, order.getProduct().getPrice());
-        values.put(COLUMN_PRODUCT_TITLE, order.getProduct().getTitle());
-        ShoppingCartService.insert(mContext, values);
-    }
-
-    public boolean remove(ShoppingCartOrder order) {
-
-        String where = COLUMN_IMAGE_URL + " = " + order.getProduct().getImage_url();
-        ShoppingCartService.delete(mContext, where, null);
-
-        return orders.remove(order);
-    }
-
-    public void update(ShoppingCartOrder order) {
-        String where = COLUMN_IMAGE_URL + " = " + order.getProduct().getImage_url();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_NUMBER, order.getNumber());
-        ShoppingCartService.update(mContext, values, where, null);
-
     }
 }

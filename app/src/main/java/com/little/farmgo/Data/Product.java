@@ -3,6 +3,8 @@ package com.little.farmgo.Data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Objects;
+
 /**
  * Created by sarah on 22/03/2018.
  */
@@ -83,7 +85,7 @@ public class Product implements Parcelable {
     }
 
     public void setImage_url(String image_url) {
-        this.image_url = image_url;
+        this.image_url = image_url.trim();
     }
 
     @Override
@@ -123,4 +125,15 @@ public class Product implements Parcelable {
             return new Product[size];
         }
     };
+
+    @Override
+    public boolean equals(Object obj) {
+        Product pro = (Product) obj;
+        return getImage_url().equals(pro.getImage_url());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getImage_url());
+    }
 }

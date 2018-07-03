@@ -22,6 +22,7 @@ public class ShoppingCartHelper extends SQLiteOpenHelper {
             ShoppingCartTable._ID+ " INTEGER PRIMARY KEY, " +
             ShoppingCartTable.COLUMN_IMAGE_URL +" TEXT NOT NULL, "+
             ShoppingCartTable.COLUMN_PRODUCT_TITLE +" TEXT NOT NULL, " +
+            ShoppingCartTable.COLUMN_PRODUCT_SUBTITLE +" TEXT NOT NULL, " +
             ShoppingCartTable.COLUMN_PRODUCT_PRICE +" INTEGER NOT NULL, " +
             ShoppingCartTable.COLUMN_NUMBER +" INTEGER NOT NULL)";
 
