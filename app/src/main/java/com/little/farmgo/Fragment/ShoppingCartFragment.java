@@ -40,7 +40,9 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
 
     private RecyclerView mRecyclerView;
     private Button mButton;
+    private TextView mAmountTextView;
     private ShoppingCartAdapter mAdapter;
+    private int mAmount;
 
     @Nullable
     @Override
@@ -49,6 +51,7 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
         mRecyclerView = view.findViewById(R.id.shopping_cart_list);
         mButton = view.findViewById(R.id.send_order);
         mButton.setOnClickListener(this);
+        mAmountTextView = view.findViewById(R.id.amount);
 
         mAdapter = new ShoppingCartAdapter(new ShoppingListRepository(getContext()));
         mRecyclerView.setAdapter(mAdapter);
@@ -152,12 +155,13 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
             private final TextView mPrice;
             private final TextView mBuyNum;
             private final TextView mSubtitle;
-            private final Button mPlus;
-            private final Button mMinus;
+            private final TextView mPlus;
+            private final TextView mMinus;
+            private final TextView mSubtotal;
+
             private Product mProduct;
             public final View mForeground;
             public final View mBackground;
-
 
             public ViewHolder(View itemView) {
                 super(itemView);
@@ -170,20 +174,31 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
                 mMinus = itemView.findViewById(R.id.minus);
                 mForeground = itemView.findViewById(R.id.foreground);
                 mBackground = itemView.findViewById(R.id.background);
+                mSubtotal = itemView.findViewById(R.id.subtotal);
 
                 mPlus.setOnClickListener(this);
                 mMinus.setOnClickListener(this);
             }
 
             public void bind(Product order, int num) {
+
                 mProduct = order;
+
+                int subtotal = mProduct.getPrice()*num;
+                mAmount+=subtotal;
+
                 mTitle.setText(mProduct.getTitle());
                 mSubtitle.setText(mProduct.getSubtitle());
                 mPrice.setText(mProduct.getPrice() + getString(R.string.dollar));
                 mBuyNum.setText(num + "");
+                mSubtotal.setText(getString(R.string.subtotal)+": "+subtotal+getString(R.string.dollar));
                 Glide.with(itemView)
                         .load(mProduct.getImage_url())
                         .into(mImageView);
+
+                mAmountTextView.setText(getString(R.string.amount)+": "
+                        +mAmount
+                        +getString(R.string.dollar));
             }
 
             @Override
@@ -200,20 +215,28 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
                         if (buyNum >= num) {
                             buyNum = num;
                             showToast("已達庫存上限");
-                        } else
+                        } else {
                             buyNum++;
+                            mAmount +=mProduct.getPrice();
+                        }
                         break;
                     case R.id.minus:
                         if (buyNum <= 1) {
                             buyNum = 1;
                             showToast("購物數量下限為 1");
-                        } else
+                        } else {
                             buyNum--;
+                            mAmount-=mProduct.getPrice();
+                        }
                         break;
                     default:
                         break;
                 }
                 mBuyNum.setText(buyNum + "");
+                mSubtotal.setText(getString(R.string.subtotal)+": "+mProduct.getPrice()*buyNum);
+                mAmountTextView.setText(getString(R.string.amount)+": "
+                        +mAmount
+                        +getString(R.string.dollar));
                 mRepository.update(mProduct, buyNum);
             }
 

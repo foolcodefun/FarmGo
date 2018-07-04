@@ -18,4 +18,6 @@
     <string name="edit_member_data">編輯會員資料</string>
     <string name="signed_out">已登出</string>
     <string name="send_order">確定購買</string>
+    <string name="amount">總金額</string>
+    <string name="subtotal">小計</string>
 </resources>
