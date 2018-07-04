@@ -132,20 +132,21 @@ public class MainActivity extends AppCompatActivity
                 signInOrOut(item);
                 break;
             case R.id.delete_account:
-                deleteAccount(item);
+                deleteAccount();
                 break;
             case R.id.member_data:
-                editMemberData(item);
+                editMemberData();
         }
         return true;
     }
 
-
-    private void editMemberData(MenuItem item) {
+    private void editMemberData() {
         //TODO: start an activity to edit member's data
+        Intent intent =new Intent(this,MemberActivity.class);
+        startActivity(intent);
     }
 
-    private void deleteAccount(final MenuItem item) {
+    private void deleteAccount() {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.deleteAccountOrNot)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
