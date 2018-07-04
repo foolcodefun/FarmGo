@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity
     private static final int RC_SIGN_IN = 23;
     private BottomNavigationView navigationView;
     private FirebaseAuth auth;
+    private Menu mMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,9 +102,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         Log.d(TAG, "onCreateOptionsMenu: ");
-        getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        setItemsTitles(menu);
+        mMenu = menu;
+        getMenuInflater().inflate(R.menu.menu_main, mMenu);
+
+        setItemsTitles(mMenu);
 
         return true;
     }
@@ -129,7 +132,7 @@ public class MainActivity extends AppCompatActivity
         Log.d(TAG, "onOptionsItemSelected: ");
         switch (item.getItemId()) {
             case R.id.sign_in_or_out:
-                signInOrOut(item);
+                signInOrOut();
                 break;
             case R.id.delete_account:
                 deleteAccount();
@@ -142,7 +145,7 @@ public class MainActivity extends AppCompatActivity
 
     private void editMemberData() {
         //TODO: start an activity to edit member's data
-        Intent intent =new Intent(this,MemberActivity.class);
+        Intent intent = new Intent(this, MemberActivity.class);
         startActivity(intent);
     }
 
@@ -153,13 +156,14 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         auth.getCurrentUser().delete();
+                        auth.signOut();
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)
                 .show();
     }
 
-    private void signInOrOut(MenuItem item) {
+    private void signInOrOut() {
         if (auth.getCurrentUser() != null) {
             showSignAlertDialog();
         } else {
@@ -183,7 +187,7 @@ public class MainActivity extends AppCompatActivity
                     public void onClick(DialogInterface dialogInterface, int i) {
                         auth.signOut();
                         Toast.makeText(getApplicationContext()
-                                , R.string.signed_out,Toast.LENGTH_LONG);
+                                , R.string.signed_out, Toast.LENGTH_LONG);
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)
