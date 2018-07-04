@@ -20,15 +20,13 @@ public class ProductDetailActivity extends AppCompatActivity {
     private static final int DEFAULT_NUM = 1;
     private TextView mNumber;
     private Product mProduct;
-    private TextView mBuyNum;
 
     public static Intent newIntent(Context context, Product product) {
         Intent intent = new Intent(context, ProductDetailActivity.class);
         intent.putExtra(PRODUCT, product);
         return intent;
     }
-
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +40,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         mNumber = findViewById(R.id.number);
         TextView description = findViewById(R.id.discrition);
         TextView origin = findViewById(R.id.origin);
-        mBuyNum = findViewById(R.id.buying_num);
 
         title.setText(mProduct.getTitle());
         subtitle.setText(mProduct.getSubtitle());
@@ -65,7 +62,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     public void addToShoppingList(View view) {
 
-        new ShoppingListRepository(this).add(mProduct,DEFAULT_NUM);
+        new ShoppingListRepository(this).add(mProduct, DEFAULT_NUM);
         Toast.makeText(this, "已加入購物車", Toast.LENGTH_LONG).show();
 
     }

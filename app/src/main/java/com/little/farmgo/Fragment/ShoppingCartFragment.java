@@ -233,7 +233,9 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
                         break;
                 }
                 mBuyNum.setText(buyNum + "");
-                mSubtotal.setText(getString(R.string.subtotal)+": "+mProduct.getPrice()*buyNum);
+                mSubtotal.setText(getString(R.string.subtotal)
+                        +": "+mProduct.getPrice()*buyNum
+                        +getString(R.string.dollar));
                 mAmountTextView.setText(getString(R.string.amount)+": "
                         +mAmount
                         +getString(R.string.dollar));
