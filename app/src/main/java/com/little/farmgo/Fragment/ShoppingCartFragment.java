@@ -1,6 +1,5 @@
 package com.little.farmgo.Fragment;
 
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,6 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.little.farmgo.Data.Product;
 import com.little.farmgo.Data.ShoppingCart.ShoppingListRepository;
 import com.little.farmgo.R;
+import com.little.farmgo.View.ListItemTouchHelper;
+import com.little.farmgo.View.SwipeableViewHolder;
 
 import java.util.HashMap;
 
@@ -47,6 +48,7 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_shopping_chart_list, container, false);
         mRecyclerView = view.findViewById(R.id.shopping_cart_list);
         mSendOrderButton = view.findViewById(R.id.send_order);
@@ -67,10 +69,10 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
     }
 
     private void hasProduct(ShoppingListRepository shoppingListRepository) {
-        if(shoppingListRepository.hasProduct()) {
+        if (shoppingListRepository.hasProduct()) {
             mSendOrderButton.setVisibility(View.VISIBLE);
             mAmountTextView.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             mSendOrderButton.setVisibility(View.INVISIBLE);
             mAmountTextView.setVisibility(View.INVISIBLE);
         }
@@ -78,45 +80,12 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
 
 
     private void enableSwipeDelete() {
-        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, LEFT) {
+        ListItemTouchHelper simpleCallback = new ListItemTouchHelper(0, LEFT, new ListItemTouchHelper.ListItemTouchHelperListener() {
             @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            public void onSwipe(RecyclerView.ViewHolder viewHolder) {
                 mAdapter.remove(viewHolder.getAdapterPosition());
             }
-
-
-            @Override
-            public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
-                if (viewHolder != null) {
-                    View view = ((ShoppingCartAdapter.ViewHolder) viewHolder).mForeground;
-                    getDefaultUIUtil().onSelected(view);
-                }
-            }
-
-            @Override
-            public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-
-                getDefaultUIUtil().clearView(((ShoppingCartAdapter.ViewHolder) viewHolder).mForeground);
-            }
-
-            @Override
-            public void onChildDrawOver(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                getDefaultUIUtil().onDrawOver(c, recyclerView, ((ShoppingCartAdapter.ViewHolder) viewHolder).mForeground
-                        , dX, dY, actionState, isCurrentlyActive);
-            }
-
-
-            @Override
-            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                getDefaultUIUtil().onDraw(c, recyclerView, ((ShoppingCartAdapter.ViewHolder) viewHolder).mForeground, dX, dY, actionState, isCurrentlyActive);
-            }
-        };
-
+        });
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
@@ -159,17 +128,17 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
         public void remove(int position) {
             Product order = (Product) shoppingList.keySet().toArray()[position];
             int num = shoppingList.get(order);
-            mAmount-=order.getPrice()*num;
-            mAmountTextView.setText(getString(R.string.amount)+": "
-                    +mAmount
-                    +getString(R.string.dollar));
+            mAmount -= order.getPrice() * num;
+            mAmountTextView.setText(getString(R.string.amount) + ": "
+                    + mAmount
+                    + getString(R.string.dollar));
             mRepository.delete(order);
             hasProduct(mRepository);
             notifyDataSetChanged();
 
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public class ViewHolder extends SwipeableViewHolder implements View.OnClickListener {
 
             private final ImageView mImageView;
             private final TextView mTitle;
@@ -213,21 +182,21 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
 
                 mProduct = order;
 
-                int subtotal = mProduct.getPrice()*num;
-                mAmount+=subtotal;
+                int subtotal = mProduct.getPrice() * num;
+                mAmount += subtotal;
 
                 mTitle.setText(mProduct.getTitle());
                 mSubtitle.setText(mProduct.getSubtitle());
                 mPrice.setText(mProduct.getPrice() + getString(R.string.dollar));
                 mBuyNum.setText(num + "");
-                mSubtotal.setText(getString(R.string.subtotal)+": "+subtotal+getString(R.string.dollar));
+                mSubtotal.setText(getString(R.string.subtotal) + ": " + subtotal + getString(R.string.dollar));
                 Glide.with(itemView)
                         .load(mProduct.getImageUrl())
                         .into(mImageView);
 
-                mAmountTextView.setText(getString(R.string.amount)+": "
-                        +mAmount
-                        +getString(R.string.dollar));
+                mAmountTextView.setText(getString(R.string.amount) + ": "
+                        + mAmount
+                        + getString(R.string.dollar));
             }
 
             @Override
@@ -246,7 +215,7 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
                             showToast("已達庫存上限");
                         } else {
                             buyNum++;
-                            mAmount +=mProduct.getPrice();
+                            mAmount += mProduct.getPrice();
                         }
                         break;
                     case R.id.minus:
@@ -255,7 +224,7 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
                             showToast("購物數量下限為 1");
                         } else {
                             buyNum--;
-                            mAmount-=mProduct.getPrice();
+                            mAmount -= mProduct.getPrice();
                         }
                         break;
                     default:
@@ -263,11 +232,11 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
                 }
                 mBuyNum.setText(buyNum + "");
                 mSubtotal.setText(getString(R.string.subtotal)
-                        +": "+String.valueOf(mProduct.getPrice()*buyNum)
-                        +getString(R.string.dollar));
-                mAmountTextView.setText(getString(R.string.amount)+": "
-                        +mAmount
-                        +getString(R.string.dollar));
+                        + ": " + String.valueOf(mProduct.getPrice() * buyNum)
+                        + getString(R.string.dollar));
+                mAmountTextView.setText(getString(R.string.amount) + ": "
+                        + mAmount
+                        + getString(R.string.dollar));
                 mRepository.update(mProduct, buyNum);
             }
 
