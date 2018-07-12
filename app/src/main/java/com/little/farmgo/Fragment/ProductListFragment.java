@@ -104,7 +104,7 @@ public class ProductListFragment extends Fragment {
             mPrice.setText(product.getPrice() + getString(R.string.dollar));
             mSubtitle.setText(product.getSubtitle());
             Glide.with(itemView)
-                    .load(product.getImage_url())
+                    .load(product.getImageUrl())
                     .into(mImage);
         }
 

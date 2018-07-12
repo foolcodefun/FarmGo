@@ -49,7 +49,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         origin.setText("產地：" + mProduct.getOrigin());
 
         Glide.with(getApplicationContext())
-                .load(mProduct.getImage_url())
+                .load(mProduct.getImageUrl())
                 .into(imageView);
 
 

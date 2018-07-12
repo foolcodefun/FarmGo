@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorToolbar</item>
         <item name="colorPrimaryDark">@color/colorNotification</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/sign_in_btn</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">

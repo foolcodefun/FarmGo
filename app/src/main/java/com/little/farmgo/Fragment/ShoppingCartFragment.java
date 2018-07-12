@@ -39,7 +39,7 @@ import static com.little.farmgo.Data.ShoppingCart.DatabaseContract.ShoppingCartT
 public class ShoppingCartFragment extends Fragment implements View.OnClickListener {
 
     private RecyclerView mRecyclerView;
-    private Button mButton;
+    private Button mSendOrderButton;
     private TextView mAmountTextView;
     private ShoppingCartAdapter mAdapter;
     private int mAmount;
@@ -49,18 +49,33 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shopping_chart_list, container, false);
         mRecyclerView = view.findViewById(R.id.shopping_cart_list);
-        mButton = view.findViewById(R.id.send_order);
-        mButton.setOnClickListener(this);
+        mSendOrderButton = view.findViewById(R.id.send_order);
+        mSendOrderButton.setOnClickListener(this);
         mAmountTextView = view.findViewById(R.id.amount);
 
-        mAdapter = new ShoppingCartAdapter(new ShoppingListRepository(getContext()));
+
+        ShoppingListRepository shoppingListRepository = new ShoppingListRepository(getContext());
+        mAdapter = new ShoppingCartAdapter(shoppingListRepository);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        hasProduct(shoppingListRepository);
         enableSwipeDelete();
+
         return view;
     }
+
+    private void hasProduct(ShoppingListRepository shoppingListRepository) {
+        if(shoppingListRepository.hasProduct()) {
+            mSendOrderButton.setVisibility(View.VISIBLE);
+            mAmountTextView.setVisibility(View.VISIBLE);
+        }else{
+            mSendOrderButton.setVisibility(View.INVISIBLE);
+            mAmountTextView.setVisibility(View.INVISIBLE);
+        }
+    }
+
 
     private void enableSwipeDelete() {
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, LEFT) {
@@ -73,6 +88,7 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 mAdapter.remove(viewHolder.getAdapterPosition());
             }
+
 
             @Override
             public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
@@ -107,7 +123,7 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-
+//todo sendOrder
     }
 
     public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapter.ViewHolder> {
@@ -125,8 +141,7 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(getContext())
                     .inflate(R.layout.shopping_cart_item, parent, false);
-            ViewHolder viewHolder = new ViewHolder(view);
-            return viewHolder;
+            return new ViewHolder(view);
         }
 
         @Override
@@ -143,7 +158,13 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
 
         public void remove(int position) {
             Product order = (Product) shoppingList.keySet().toArray()[position];
+            int num = shoppingList.get(order);
+            mAmount-=order.getPrice()*num;
+            mAmountTextView.setText(getString(R.string.amount)+": "
+                    +mAmount
+                    +getString(R.string.dollar));
             mRepository.delete(order);
+            hasProduct(mRepository);
             notifyDataSetChanged();
 
         }
@@ -165,6 +186,14 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
 
             public ViewHolder(View itemView) {
                 super(itemView);
+
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+
                 mImageView = itemView.findViewById(R.id.image);
                 mTitle = itemView.findViewById(R.id.title);
                 mSubtitle = itemView.findViewById(R.id.subtitle);
@@ -193,7 +222,7 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
                 mBuyNum.setText(num + "");
                 mSubtotal.setText(getString(R.string.subtotal)+": "+subtotal+getString(R.string.dollar));
                 Glide.with(itemView)
-                        .load(mProduct.getImage_url())
+                        .load(mProduct.getImageUrl())
                         .into(mImageView);
 
                 mAmountTextView.setText(getString(R.string.amount)+": "
@@ -234,7 +263,7 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
                 }
                 mBuyNum.setText(buyNum + "");
                 mSubtotal.setText(getString(R.string.subtotal)
-                        +": "+mProduct.getPrice()*buyNum
+                        +": "+String.valueOf(mProduct.getPrice()*buyNum)
                         +getString(R.string.dollar));
                 mAmountTextView.setText(getString(R.string.amount)+": "
                         +mAmount
@@ -248,7 +277,7 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
 
             private void refreshProduct(final View v) {
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-                Query query = reference.child("products").orderByChild(COLUMN_IMAGE_URL).equalTo(mProduct.getImage_url());
+                Query query = reference.child("products").orderByChild(COLUMN_IMAGE_URL).equalTo(mProduct.getImageUrl());
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {

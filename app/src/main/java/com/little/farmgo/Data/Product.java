@@ -15,9 +15,10 @@ public class Product implements Parcelable {
     private int price;
     private int number;
     private String subtitle;
-    private String image_url;
+    private String imageUrl;
     private String description;
     private String origin;
+    private String expirationDate;
 
     public Product(){
 
@@ -27,7 +28,7 @@ public class Product implements Parcelable {
         this.title = title;
         this.price = price;
         this.subtitle = mSubtitle;
-        image_url = imageURL;
+        imageUrl = imageURL;
         this.description = description;
         this.origin = origin;
     }
@@ -80,12 +81,12 @@ public class Product implements Parcelable {
         this.subtitle = subtitle;
     }
 
-    public String getImage_url() {
-        return image_url;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage_url(String image_url) {
-        this.image_url = image_url.trim();
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl.trim();
     }
 
     @Override
@@ -99,7 +100,7 @@ public class Product implements Parcelable {
         dest.writeInt(this.price);
         dest.writeInt(this.number);
         dest.writeString(this.subtitle);
-        dest.writeString(this.image_url);
+        dest.writeString(this.imageUrl);
         dest.writeString(this.description);
         dest.writeString(this.origin);
     }
@@ -109,7 +110,7 @@ public class Product implements Parcelable {
         this.price = in.readInt();
         this.number = in.readInt();
         this.subtitle = in.readString();
-        this.image_url = in.readString();
+        this.imageUrl = in.readString();
         this.description = in.readString();
         this.origin = in.readString();
     }
@@ -129,11 +130,11 @@ public class Product implements Parcelable {
     @Override
     public boolean equals(Object obj) {
         Product pro = (Product) obj;
-        return getImage_url().equals(pro.getImage_url());
+        return getImageUrl().equals(pro.getImageUrl());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getImage_url());
+        return Objects.hashCode(getImageUrl());
     }
 }

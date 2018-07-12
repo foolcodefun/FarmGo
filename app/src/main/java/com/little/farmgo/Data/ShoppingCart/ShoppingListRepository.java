@@ -46,7 +46,7 @@ public class ShoppingListRepository implements LoaderManager.LoaderCallbacks<Cur
 
             Product product = new Product();
             product.setTitle(title);
-            product.setImage_url(imageUrl);
+            product.setImageUrl(imageUrl);
             product.setSubtitle(subtitle);
             product.setPrice(price);
             orders.put(product, num);
@@ -59,7 +59,7 @@ public class ShoppingListRepository implements LoaderManager.LoaderCallbacks<Cur
 
     }
 
-    public HashMap<Product, Integer> getOreders(){
+    public HashMap<Product, Integer> getOreders() {
         return mOrders;
     }
 
@@ -91,12 +91,12 @@ public class ShoppingListRepository implements LoaderManager.LoaderCallbacks<Cur
 
         mOrders.remove(order);
         String where = getWhere(order);
-        ShoppingCartService.delete(mContext,where,null);
+        ShoppingCartService.delete(mContext, where, null);
     }
 
     public ContentValues getContentValues(Product order, int num) {
         ContentValues values = new ContentValues();
-        values.put(DatabaseContract.ShoppingCartTable.COLUMN_IMAGE_URL, order.getImage_url());
+        values.put(DatabaseContract.ShoppingCartTable.COLUMN_IMAGE_URL, order.getImageUrl());
         values.put(DatabaseContract.ShoppingCartTable.COLUMN_NUMBER, num);
         values.put(DatabaseContract.ShoppingCartTable.COLUMN_PRODUCT_PRICE, order.getPrice());
         values.put(DatabaseContract.ShoppingCartTable.COLUMN_PRODUCT_TITLE, order.getTitle());
@@ -109,9 +109,15 @@ public class ShoppingListRepository implements LoaderManager.LoaderCallbacks<Cur
         StringBuilder where = new StringBuilder();
         where.append(DatabaseContract.ShoppingCartTable.COLUMN_IMAGE_URL)
                 .append(" = \"")
-                .append(order.getImage_url())
+                .append(order.getImageUrl())
                 .append("\"");
 
         return where.toString();
+    }
+
+    public boolean hasProduct() {
+        if (mOrders.size() != 0)
+            return true;
+        return false;
     }
 }

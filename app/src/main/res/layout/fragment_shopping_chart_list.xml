@@ -7,6 +7,7 @@
 
     <Button
         android:id="@+id/send_order"
+        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -31,6 +32,7 @@
 
     <TextView
         android:id="@+id/amount"
+        android:visibility="invisible"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/top_stroke"
