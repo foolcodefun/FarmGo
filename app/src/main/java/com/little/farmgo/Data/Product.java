@@ -20,11 +20,12 @@ public class Product implements Parcelable {
     private String origin;
     private String expirationDate;
 
-    public Product(){
+    public Product() {
 
     }
+
     public Product(String title, int price, String mSubtitle
-            , String imageURL,String description,String origin) {
+            , String imageURL, String description, String origin) {
         this.title = title;
         this.price = price;
         this.subtitle = mSubtitle;

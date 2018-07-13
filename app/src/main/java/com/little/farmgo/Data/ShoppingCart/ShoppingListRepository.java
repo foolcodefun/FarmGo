@@ -11,6 +11,7 @@ import android.os.Bundle;
 import com.little.farmgo.Data.Product;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by sarah on 2018/6/20.
@@ -18,12 +19,12 @@ import java.util.HashMap;
 
 public class ShoppingListRepository implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    Context mContext;
+    private Context mContext;
     private HashMap<Product, Integer> mOrders;
 
-    public ShoppingListRepository(Context context) {
+    public ShoppingListRepository(Context context,HashMap<Product,Integer> orders) {
         mContext = context;
-        mOrders = ShoppingCartList.getInstance().getOrders();
+        mOrders = orders;
     }
 
     @Override
@@ -50,7 +51,6 @@ public class ShoppingListRepository implements LoaderManager.LoaderCallbacks<Cur
             product.setSubtitle(subtitle);
             product.setPrice(price);
             orders.put(product, num);
-
         }
     }
 
@@ -116,8 +116,17 @@ public class ShoppingListRepository implements LoaderManager.LoaderCallbacks<Cur
     }
 
     public boolean hasProduct() {
-        if (mOrders.size() != 0)
-            return true;
-        return false;
+        return mOrders.size() != 0;
     }
+
+    public int getAmount() {
+        int amount = 0;
+        for (Map.Entry pair : mOrders.entrySet()) {
+            Product product = (Product) pair.getKey();
+            int num = (int) pair.getValue();
+            amount += product.getPrice() * num;
+        }
+        return amount;
+    }
+
 }

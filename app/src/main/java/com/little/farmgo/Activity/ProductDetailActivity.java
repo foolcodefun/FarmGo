@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.little.farmgo.Data.Product;
+import com.little.farmgo.Data.ShoppingCart.ShoppingCartList;
 import com.little.farmgo.Data.ShoppingCart.ShoppingListRepository;
 import com.little.farmgo.R;
 
@@ -62,7 +63,9 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     public void addToShoppingList(View view) {
 
-        new ShoppingListRepository(this).add(mProduct, DEFAULT_NUM);
+        new ShoppingListRepository(this
+                , ShoppingCartList.getInstance().getOrders())
+                .add(mProduct, DEFAULT_NUM);
         Toast.makeText(this, "已加入購物車", Toast.LENGTH_LONG).show();
 
     }
