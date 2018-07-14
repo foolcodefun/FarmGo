@@ -24,4 +24,9 @@
         <item name="android:textColor">@color/bg_sign_in</item>
     </style>
 
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
 </resources>

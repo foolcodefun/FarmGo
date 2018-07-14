@@ -81,12 +81,14 @@ public class MainActivity extends AppCompatActivity
                 replaceFragment(new ProductListFragment());
                 break;
             case R.id.chat:
+                //TODO
                 break;
             case R.id.shopping_cart:
                 replaceFragment(new ShoppingCartFragment());
                 break;
             case R.id.purchase_records:
                 break;
+                //TODO
             default:
                 break;
         }

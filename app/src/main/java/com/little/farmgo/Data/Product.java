@@ -25,13 +25,14 @@ public class Product implements Parcelable {
     }
 
     public Product(String title, int price, String mSubtitle
-            , String imageURL, String description, String origin) {
+            , String imageURL, String description, String origin,String expirationDate) {
         this.title = title;
         this.price = price;
         this.subtitle = mSubtitle;
         imageUrl = imageURL;
         this.description = description;
         this.origin = origin;
+        this.expirationDate = expirationDate;
     }
 
     public String getOrigin() {
@@ -90,6 +91,14 @@ public class Product implements Parcelable {
         this.imageUrl = imageUrl.trim();
     }
 
+    public String getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(String expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -104,6 +113,7 @@ public class Product implements Parcelable {
         dest.writeString(this.imageUrl);
         dest.writeString(this.description);
         dest.writeString(this.origin);
+        dest.writeString(this.expirationDate);
     }
 
     protected Product(Parcel in) {
@@ -114,6 +124,7 @@ public class Product implements Parcelable {
         this.imageUrl = in.readString();
         this.description = in.readString();
         this.origin = in.readString();
+        this.expirationDate = in.readString();
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {

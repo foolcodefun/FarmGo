@@ -27,7 +27,7 @@
         </activity>
         <activity
             android:name=".Activity.ProductDetailActivity"
-            android:parentActivityName=".Activity.MainActivity">
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <service
