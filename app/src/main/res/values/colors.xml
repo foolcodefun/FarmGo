@@ -14,6 +14,7 @@
     <color name="bg_sign_in">#26ae90</color>
     <color name="sign_in_hint">#999999</color>
     <color name="subtotal">#f0faf3</color>
+    <color name="transparent">#00ffffff</color>
 
 
 </resources>
