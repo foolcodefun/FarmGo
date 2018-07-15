@@ -1,19 +1,15 @@
 package com.little.farmgo.Activity;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.little.farmgo.Data.Product;
@@ -28,8 +24,6 @@ public class ProductDetailActivity extends AppCompatActivity {
     private static final String TAG = ProductDetailActivity.class.getSimpleName();
     private TextView mNumber;
     private Product mProduct;
-    private CollapsingToolbarLayout mCollapsing;
-    private Toolbar mToolbar;
     private ImageView mImageView;
     private TextView mTitle;
     private TextView mSubtitle;
@@ -43,7 +37,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         intent.putExtra(PRODUCT, product);
         return intent;
     }
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,9 +52,6 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        setSupportActionBar(mToolbar);
-        mCollapsing.setCollapsedTitleTextColor(Color.WHITE);
-        mCollapsing.setExpandedTitleColor(Color.TRANSPARENT);
 
         mTitle.setText(mProduct.getTitle());
         mSubtitle.setText(mProduct.getSubtitle());
@@ -68,16 +59,16 @@ public class ProductDetailActivity extends AppCompatActivity {
         mNumber.setText("剩餘數量：" + mProduct.getNumber());
         mDescription.setText(mProduct.getDescription());
         mOrigin.setText("產地：" + mProduct.getOrigin());
-        mExpirationDate.setText("保存期限："+mProduct.getExpirationDate());
+        mExpirationDate.setText("保存期限：" + mProduct.getExpirationDate());
 
         Glide.with(getApplicationContext())
                 .load(mProduct.getImageUrl())
                 .into(mImageView);
+
+        getSupportActionBar().setTitle(R.string.product_information);
     }
 
     private void findViews() {
-        mCollapsing = findViewById(R.id.collapsing);
-        mToolbar = findViewById(R.id.toolbar);
         mImageView = findViewById(R.id.imageView);
         mTitle = findViewById(R.id.title);
         mSubtitle = findViewById(R.id.subtitle);

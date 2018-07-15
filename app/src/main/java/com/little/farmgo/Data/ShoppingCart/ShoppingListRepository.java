@@ -4,10 +4,13 @@ import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
 
+import com.little.farmgo.Activity.ProductDetailActivity;
 import com.little.farmgo.Data.Product;
 
 import java.util.HashMap;
@@ -17,12 +20,12 @@ import java.util.Map;
  * Created by sarah on 2018/6/20.
  */
 
-public class ShoppingListRepository implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ShoppingListRepository implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private Context mContext;
     private HashMap<Product, Integer> mOrders;
 
-    public ShoppingListRepository(Context context,HashMap<Product,Integer> orders) {
+    public ShoppingListRepository(Context context, HashMap<Product, Integer> orders) {
         mContext = context;
         mOrders = orders;
     }
@@ -51,6 +54,7 @@ public class ShoppingListRepository implements LoaderManager.LoaderCallbacks<Cur
             product.setSubtitle(subtitle);
             product.setPrice(price);
             orders.put(product, num);
+            //select 要從firebase檢查
         }
     }
 
@@ -128,5 +132,4 @@ public class ShoppingListRepository implements LoaderManager.LoaderCallbacks<Cur
         }
         return amount;
     }
-
 }

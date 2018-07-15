@@ -16,7 +16,7 @@
     <item android:color="@android:color/black">
         <shape android:shape="rectangle">
             <corners android:radius="10dip"/>
-            <solid android:color="@color/colorToolbar"/>
+            <solid android:color="@color/bg_sign_in"/>
         </shape>
     </item>
 

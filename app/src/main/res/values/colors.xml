@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#303f9f</color>
     <color name="colorAccent">#f745a4</color>
     <color name="launcherBackground">#737153</color>
-     <color name="colorToolbar">#029A30</color>
+     <color name="colorToolbar">#ededed</color>
     <color name="colorNotification">#024F27</color>
     <color name="sign_in_btn">#288018</color>
     <color name="lightCyan">#0D86DA</color>
@@ -15,6 +15,6 @@
     <color name="sign_in_hint">#999999</color>
     <color name="subtotal">#f0faf3</color>
     <color name="transparent">#00ffffff</color>
-
+    <color name="shopping_cart">#288c46</color>
 
 </resources>

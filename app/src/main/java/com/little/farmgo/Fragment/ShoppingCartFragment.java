@@ -1,12 +1,16 @@
 package com.little.farmgo.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +18,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.little.farmgo.Activity.ProductDetailActivity;
 import com.little.farmgo.Adapter.ShoppingCartAdapter;
 import com.little.farmgo.Data.ShoppingCart.ShoppingCartList;
 import com.little.farmgo.Data.ShoppingCart.ShoppingListRepository;
@@ -32,6 +39,7 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
     private Button mSendOrderButton;
     private TextView mAmountTextView;
     private Adapter mAdapter;
+    private Toolbar mToolbar;
 
     @Nullable
     @Override
@@ -41,16 +49,17 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
         ShoppingListRepository shoppingListRepository
                 = new ShoppingListRepository(getContext()
                 , ShoppingCartList.getInstance().getOrders());
-        setView(view, shoppingListRepository);
+        findViews(view, shoppingListRepository);
 
         return view;
     }
 
-    private void setView(View view, ShoppingListRepository shoppingListRepository) {
+    private void findViews(View view, ShoppingListRepository shoppingListRepository) {
         mRecyclerView = view.findViewById(R.id.shopping_cart_list);
         mSendOrderButton = view.findViewById(R.id.send_order);
         mSendOrderButton.setOnClickListener(this);
         mAmountTextView = view.findViewById(R.id.amount);
+        mToolbar = view.findViewById(R.id.toolbar);
 
         mAdapter = new Adapter(shoppingListRepository, getContext());
         mRecyclerView.setAdapter(mAdapter);
@@ -87,7 +96,14 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
         //todo sendOrder
     }
 
-    private class Adapter extends ShoppingCartAdapter {
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+
+    }
+
+    private class Adapter extends ShoppingCartAdapter{
         private Adapter(ShoppingListRepository repository, Context context) {
             super(repository, context);
         }

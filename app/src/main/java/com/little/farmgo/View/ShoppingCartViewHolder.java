@@ -37,6 +37,8 @@ public abstract class ShoppingCartViewHolder extends SwipeableViewHolder impleme
     private final ShoppingListRepository mRepository;
 
     private Product mProduct;
+    private final TextView mPlus;
+    private final TextView mMinus;
 
     public ShoppingCartViewHolder(View itemView, Context context, ShoppingListRepository repository) {
         super(itemView);
@@ -56,12 +58,12 @@ public abstract class ShoppingCartViewHolder extends SwipeableViewHolder impleme
         mSubtitle = itemView.findViewById(R.id.subtitle);
         mPrice = itemView.findViewById(R.id.price);
         mBuyNum = itemView.findViewById(R.id.buying_num);
-        TextView plus = itemView.findViewById(R.id.plus);
-        TextView minus = itemView.findViewById(R.id.minus);
+        mPlus = itemView.findViewById(R.id.plus);
+        mMinus = itemView.findViewById(R.id.minus);
         mSubtotal = itemView.findViewById(R.id.subtotal);
 
-        plus.setOnClickListener(this);
-        minus.setOnClickListener(this);
+        mPlus.setOnClickListener(this);
+        mMinus.setOnClickListener(this);
     }
 
     public void bind(Product order, int num) {

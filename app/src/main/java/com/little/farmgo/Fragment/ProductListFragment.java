@@ -112,11 +112,11 @@ public class ProductListFragment extends Fragment {
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         mCollapsing.setExpandedTitleColor(Color.TRANSPARENT);
-        mCollapsing.setCollapsedTitleTextColor(Color.WHITE);
-        getFirebaseBanner();
+        mCollapsing.setCollapsedTitleTextColor(Color.DKGRAY);
+        setBarFromFirebase();
     }
 
-    public void getFirebaseBanner() {
+    public void setBarFromFirebase() {
         dbBanners.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
