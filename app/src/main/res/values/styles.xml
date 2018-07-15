@@ -13,6 +13,7 @@
 
     <style name="AppTheme.ActionBarStyle" parent="Widget.AppCompat.Light.ActionBar">
         <item name="titleTextStyle">@style/AppTheme.ActionBar.TitleTextStyle</item>
+        <item name="background">@color/colorToolbar</item>
     </style>
 
     <style name="AppTheme.ActionBar.TitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
