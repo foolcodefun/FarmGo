@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity
                     public void onClick(DialogInterface dialogInterface, int i) {
                         auth.signOut();
                         Toast.makeText(getApplicationContext()
-                                , R.string.signed_out, Toast.LENGTH_LONG);
+                                , R.string.signed_out, Toast.LENGTH_LONG).show();
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)
