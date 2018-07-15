@@ -92,6 +92,7 @@ public class ProductListFragment extends Fragment {
         mCollapsing = view.findViewById(R.id.collapsing);
         mAppBarLayout = view.findViewById(R.id.app_bar_layout);
         mProgressBar = view.findViewById(R.id.progressBar);
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
 

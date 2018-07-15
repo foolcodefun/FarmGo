@@ -51,13 +51,15 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(R.id.container);
         if (fragment == null) {
-            fragment = new ProductListFragment();
+
             //TODO refactor startActivityforResult from fragment
             int fragmentId = getIntent().getIntExtra(FRAGMEMT, 0);
             if (fragmentId != 0) {
                 navigationView.setSelectedItemId(fragmentId);
+                fragment = new ShoppingCartFragment();
+            }else{
+                fragment = new ProductListFragment();
             }
-            else
             fragmentManager.beginTransaction()
                     .add(R.id.container, fragment)
                     .commit();
