@@ -19,6 +19,8 @@ import com.little.farmgo.R;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
+    //TODO改成fragmant比較好
+
     private static final String PRODUCT = "product";
     private static final int DEFAULT_NUM = 1;
     private static final String TAG = ProductDetailActivity.class.getSimpleName();
