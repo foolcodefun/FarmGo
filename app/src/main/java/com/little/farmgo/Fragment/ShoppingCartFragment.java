@@ -97,7 +97,7 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        //todo sendOrder
+        //todo sendOrderf
     }
 
     @Override

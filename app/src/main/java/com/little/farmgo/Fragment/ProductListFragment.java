@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -47,6 +48,7 @@ public class ProductListFragment extends Fragment {
     private Toolbar mToolbar;
     private CollapsingToolbarLayout mCollapsing;
     private AppBarLayout mAppBarLayout;
+    private ProgressBar mProgressBar;
 
     private FirebaseRecyclerAdapter productAdapter;
 
@@ -89,6 +91,7 @@ public class ProductListFragment extends Fragment {
         mToolbar = view.findViewById(R.id.toolbar);
         mCollapsing = view.findViewById(R.id.collapsing);
         mAppBarLayout = view.findViewById(R.id.app_bar_layout);
+        mProgressBar = view.findViewById(R.id.progressBar);
     }
 
 
@@ -126,7 +129,7 @@ public class ProductListFragment extends Fragment {
                         Glide.with(getContext())
                                 .load(mBanner)
                                 .into(banner);
-                        Log.d(TAG, "onDataChange: " + mBanner);
+                        mProgressBar.setVisibility(View.GONE);
                     }
             }
 

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +18,8 @@ import com.little.farmgo.Data.Product;
 import com.little.farmgo.Data.ShoppingCart.ShoppingCartList;
 import com.little.farmgo.Data.ShoppingCart.ShoppingListRepository;
 import com.little.farmgo.R;
+
+import static com.little.farmgo.Activity.MainActivity.FRAGMEMT;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
@@ -82,6 +86,14 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(FRAGMEMT,R.id.shopping_cart);
+        startActivity(intent);
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
     }
@@ -95,5 +107,9 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detail_product,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 }

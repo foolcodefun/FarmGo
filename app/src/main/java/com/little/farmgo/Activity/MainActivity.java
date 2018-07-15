@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity
     private BottomNavigationView navigationView;
     private FirebaseAuth auth;
     private Menu mMenu;
+    public static final String FRAGMEMT = "fragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +52,16 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = fragmentManager.findFragmentById(R.id.container);
         if (fragment == null) {
             fragment = new ProductListFragment();
+            //TODO refactor startActivityforResult from fragment
+            int fragmentId = getIntent().getIntExtra(FRAGMEMT, 0);
+            if (fragmentId != 0) {
+                navigationView.setSelectedItemId(fragmentId);
+            }
+            else
             fragmentManager.beginTransaction()
                     .add(R.id.container, fragment)
                     .commit();
+
         }
     }
 
@@ -76,7 +84,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
+        switchFragment(item.getItemId());
+        return true;
+    }
+
+    private void switchFragment(int id) {
+        switch (id) {
             case R.id.homepage:
                 replaceFragment(new ProductListFragment());
                 break;
@@ -88,11 +101,10 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.purchase_records:
                 break;
-                //TODO
+            //TODO
             default:
                 break;
         }
-        return true;
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -201,6 +213,14 @@ public class MainActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != RESULT_OK)
             return;
+        signInRequest(requestCode);
+
+        //TODO shoppingCartRequest
+
+
+    }
+
+    private void signInRequest(int requestCode) {
         if (requestCode == RC_SIGN_IN) {
             FirebaseDatabase.getInstance().getReference()
                     .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -227,6 +247,5 @@ public class MainActivity extends AppCompatActivity
                         }
                     });
         }
-
     }
 }
