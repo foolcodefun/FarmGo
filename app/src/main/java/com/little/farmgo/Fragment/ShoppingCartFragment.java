@@ -40,6 +40,7 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
     private TextView mAmountTextView;
     private Adapter mAdapter;
     private Toolbar mToolbar;
+    private TextView mNotice;
 
     @Nullable
     @Override
@@ -60,6 +61,7 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
         mSendOrderButton.setOnClickListener(this);
         mAmountTextView = view.findViewById(R.id.amount);
         mToolbar = view.findViewById(R.id.toolbar);
+        mNotice = view.findViewById(R.id.notice);
 
         mAdapter = new Adapter(shoppingListRepository, getContext());
         mRecyclerView.setAdapter(mAdapter);
@@ -74,9 +76,11 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
         if (visible) {
             mSendOrderButton.setVisibility(View.VISIBLE);
             mAmountTextView.setVisibility(View.VISIBLE);
+            mNotice.setVisibility(View.GONE);
         } else {
             mSendOrderButton.setVisibility(View.INVISIBLE);
             mAmountTextView.setVisibility(View.INVISIBLE);
+            mNotice.setVisibility(View.VISIBLE);
         }
     }
 
