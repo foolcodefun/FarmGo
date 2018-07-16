@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity
 
     private void editMemberData() {
         //TODO: start an activity to edit member's data
-        Intent intent = new Intent(this, MemberActivity.class);
+        Intent intent = new Intent(this, RecipientListActivity.class);
         startActivity(intent);
     }
 
