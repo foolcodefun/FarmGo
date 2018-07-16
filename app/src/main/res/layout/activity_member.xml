@@ -12,7 +12,6 @@
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/button5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -79,7 +78,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/first_name"/>
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/county"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -97,7 +96,7 @@
                 android:padding="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/spinner"
+                app:layout_constraintStart_toEndOf="@+id/county"
                 app:layout_constraintTop_toBottomOf="@+id/textView8"/>
 
             <View
@@ -108,8 +107,8 @@
                 android:layout_marginStart="4dp"
                 android:background="#aa000000"
                 app:layout_constraintEnd_toStartOf="@+id/spinner2"
-                app:layout_constraintStart_toStartOf="@+id/spinner"
-                app:layout_constraintTop_toBottomOf="@+id/spinner"/>
+                app:layout_constraintStart_toStartOf="@+id/county"
+                app:layout_constraintTop_toBottomOf="@+id/county"/>
 
             <View
                 android:id="@+id/view1"
@@ -123,7 +122,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/spinner2"/>
 
             <EditText
-                android:id="@+id/editText3"
+                android:id="@+id/address"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -133,7 +132,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintEnd_toEndOf="@+id/spinner2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spinner"/>
+                app:layout_constraintTop_toBottomOf="@+id/county"/>
 
             <TextView
                 android:id="@+id/textView9"
@@ -147,15 +146,14 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText3"/>
+                app:layout_constraintTop_toBottomOf="@+id/address"/>
 
-            <EditText
-                android:id="@+id/editText4"
+            <TextView
+                android:id="@+id/phone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="電話號碼"
-                android:inputType="number"
                 android:padding="16dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintEnd_toEndOf="parent"
