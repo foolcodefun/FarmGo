@@ -20,6 +20,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.little.farmgo.Fragment.ChatFragment;
+import com.little.farmgo.Fragment.OrderListFragment;
 import com.little.farmgo.Fragment.ProductListFragment;
 import com.little.farmgo.Fragment.ShoppingCartFragment;
 import com.little.farmgo.R;
@@ -95,12 +97,13 @@ public class MainActivity extends AppCompatActivity
                 replaceFragment(new ProductListFragment());
                 break;
             case R.id.chat:
-                //TODO
+                replaceFragment(new ChatFragment());
                 break;
             case R.id.shopping_cart:
                 replaceFragment(new ShoppingCartFragment());
                 break;
             case R.id.purchase_records:
+                replaceFragment(new OrderListFragment());
                 break;
             //TODO
             default:
@@ -134,7 +137,7 @@ public class MainActivity extends AppCompatActivity
             sign.setTitle(R.string.signOut);
             delete.setVisible(true);
             delete.setTitle(R.string.deleteAccount);
-            member.setTitle(R.string.edit_member_data);
+            member.setTitle(R.string.edit_recipient_data);
         } else {
             sign.setTitle(R.string.signIn);
             delete.setVisible(false);
