@@ -20,7 +20,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.little.farmgo.Data.User;
 import com.little.farmgo.Fragment.ProductListFragment;
 import com.little.farmgo.Fragment.ShoppingCartFragment;
 import com.little.farmgo.R;
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity
             if (fragmentId != 0) {
                 navigationView.setSelectedItemId(fragmentId);
                 fragment = new ShoppingCartFragment();
-            }else{
+            } else {
                 fragment = new ProductListFragment();
             }
             fragmentManager.beginTransaction()
@@ -166,17 +165,18 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void deleteAccount() {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.deleteAccountOrNot)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        auth.getCurrentUser().delete();
-                        auth.signOut();
-                    }
-                })
-                .setNegativeButton(android.R.string.no, null)
-                .show();
+        if (auth.getCurrentUser() != null)
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.deleteAccountOrNot)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            auth.getCurrentUser().delete();
+                            auth.signOut();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .show();
     }
 
     private void signInOrOut() {
@@ -233,13 +233,13 @@ public class MainActivity extends AppCompatActivity
                                     .child(auth.getUid())
                                     .child("phone")
                                     .getValue();
-                            if (phone == null) {
-                                User user = new User();
-                                user.setPhone(auth.getCurrentUser().getPhoneNumber());
+                            if (phone == null ) {
+                                phone = auth.getCurrentUser().getPhoneNumber();
                                 FirebaseDatabase.getInstance().getReference()
                                         .child("users")
                                         .child(auth.getUid())
-                                        .setValue(user);
+                                        .child("phone")
+                                        .setValue(phone);
                             }
                         }
 
