@@ -1,14 +1,18 @@
 package com.little.farmgo.Fragment;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -61,10 +65,23 @@ public class ProductListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_products_list, container, false);
-
         findViews(view);
-        bindRecyclerViewData();
+        if (!isNetworkAvailable()) {
+            mProgressBar.setVisibility(View.INVISIBLE);
+            new AlertDialog.Builder(getContext())
+                    .setTitle("請連上網路")
+                    .setPositiveButton("OK", null)
+                    .show();
+        } else {
+            bindRecyclerViewData();
+        }
         return view;
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager manager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 
     private void bindRecyclerViewData() {
@@ -99,13 +116,15 @@ public class ProductListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        productAdapter.startListening();
+        if (productAdapter != null)
+            productAdapter.startListening();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        productAdapter.stopListening();
+        if (productAdapter != null)
+            productAdapter.stopListening();
     }
 
     @Override
@@ -126,6 +145,7 @@ public class ProductListFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists())
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        Log.d(TAG, "onDataChange: Banner: " + mBanner);
                         mBanner = (String) ds.getValue();
                         Glide.with(getContext())
                                 .load(mBanner)
@@ -163,6 +183,7 @@ public class ProductListFragment extends Fragment {
             mTitle.setText(product.getTitle());
             mPrice.setText(product.getPrice() + getString(R.string.dollar));
             mSubtitle.setText(product.getSubtitle());
+            Log.d(TAG, "bind: product image URL: " + product.getImageUrl());
             Glide.with(itemView)
                     .load(product.getImageUrl())
                     .into(mImage);

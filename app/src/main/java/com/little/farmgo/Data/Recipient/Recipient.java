@@ -14,9 +14,7 @@ public class Recipient {
     String district;
     String address;
     String phone;
-    UUID uid;
-
-
+    
     public Recipient(String firstName, String familyName, String county, String district, String address, String phone) {
         this.firstName = firstName;
         this.familyName = familyName;
@@ -72,23 +70,5 @@ public class Recipient {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public UUID getUid() {
-        return uid;
-    }
-
-    public void setUid(UUID uid) {
-        this.uid = uid;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return getUid() == ((Recipient)obj).getUid();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getUid());
     }
 }
