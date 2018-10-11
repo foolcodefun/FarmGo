@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.little.farmgo.Data.ShoppingCart.DatabaseContract.ShoppingCartTable;
 
-import static com.little.farmgo.Data.ShoppingCart.DatabaseContract.*;
+import static com.little.farmgo.Data.ShoppingCart.DatabaseContract.TABLE_SHOPPING_CART;
 
 /**
  * Created by sarah on 05/06/2018.
@@ -18,16 +18,16 @@ public class ShoppingCartHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "FarmGo.db";
 
     private static final String CREATE_TABLE_SHOPPING_CART = "CREATE TABLE " +
-            TABLE_SHOPPING_CART+" (" +
-            ShoppingCartTable._ID+ " INTEGER PRIMARY KEY, " +
-            ShoppingCartTable.COLUMN_IMAGE_URL +" TEXT NOT NULL, "+
-            ShoppingCartTable.COLUMN_PRODUCT_TITLE +" TEXT NOT NULL, " +
-            ShoppingCartTable.COLUMN_PRODUCT_SUBTITLE +" TEXT NOT NULL, " +
-            ShoppingCartTable.COLUMN_PRODUCT_PRICE +" INTEGER NOT NULL, " +
-            ShoppingCartTable.COLUMN_NUMBER +" INTEGER NOT NULL)";
+            TABLE_SHOPPING_CART + " (" +
+            ShoppingCartTable._ID + " INTEGER PRIMARY KEY, " +
+            ShoppingCartTable.COLUMN_IMAGE_URL + " TEXT NOT NULL, " +
+            ShoppingCartTable.COLUMN_PRODUCT_TITLE + " TEXT NOT NULL, " +
+            ShoppingCartTable.COLUMN_PRODUCT_SUBTITLE + " TEXT NOT NULL, " +
+            ShoppingCartTable.COLUMN_PRODUCT_PRICE + " INTEGER NOT NULL, " +
+            ShoppingCartTable.COLUMN_NUMBER + " INTEGER NOT NULL)";
 
     public ShoppingCartHelper(Context context) {
-        super(context, DATABASE_NAME,null, DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override

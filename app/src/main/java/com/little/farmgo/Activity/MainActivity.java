@@ -20,7 +20,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.little.farmgo.Data.User;
+import com.little.farmgo.Fragment.ChatFragment;
+import com.little.farmgo.Fragment.OrderListFragment;
 import com.little.farmgo.Fragment.ProductListFragment;
 import com.little.farmgo.Fragment.ShoppingCartFragment;
 import com.little.farmgo.R;
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity
             if (fragmentId != 0) {
                 navigationView.setSelectedItemId(fragmentId);
                 fragment = new ShoppingCartFragment();
-            }else{
+            } else {
                 fragment = new ProductListFragment();
             }
             fragmentManager.beginTransaction()
@@ -96,12 +97,13 @@ public class MainActivity extends AppCompatActivity
                 replaceFragment(new ProductListFragment());
                 break;
             case R.id.chat:
-                //TODO
+                replaceFragment(new ChatFragment());
                 break;
             case R.id.shopping_cart:
                 replaceFragment(new ShoppingCartFragment());
                 break;
             case R.id.purchase_records:
+                replaceFragment(new OrderListFragment());
                 break;
             //TODO
             default:
@@ -135,7 +137,7 @@ public class MainActivity extends AppCompatActivity
             sign.setTitle(R.string.signOut);
             delete.setVisible(true);
             delete.setTitle(R.string.deleteAccount);
-            member.setTitle(R.string.edit_member_data);
+            member.setTitle(R.string.edit_recipient_data);
         } else {
             sign.setTitle(R.string.signIn);
             delete.setVisible(false);
@@ -161,22 +163,23 @@ public class MainActivity extends AppCompatActivity
 
     private void editMemberData() {
         //TODO: start an activity to edit member's data
-        Intent intent = new Intent(this, MemberActivity.class);
-        startActivity(intent);
+       /* Intent intent = new Intent(this, RecipientListActivity.class);
+        startActivity(intent);*/
     }
 
     private void deleteAccount() {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.deleteAccountOrNot)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        auth.getCurrentUser().delete();
-                        auth.signOut();
-                    }
-                })
-                .setNegativeButton(android.R.string.no, null)
-                .show();
+        if (auth.getCurrentUser() != null)
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.deleteAccountOrNot)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            auth.getCurrentUser().delete();
+                            auth.signOut();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .show();
     }
 
     private void signInOrOut() {
@@ -203,7 +206,7 @@ public class MainActivity extends AppCompatActivity
                     public void onClick(DialogInterface dialogInterface, int i) {
                         auth.signOut();
                         Toast.makeText(getApplicationContext()
-                                , R.string.signed_out, Toast.LENGTH_LONG);
+                                , R.string.signed_out, Toast.LENGTH_LONG).show();
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)
@@ -233,13 +236,13 @@ public class MainActivity extends AppCompatActivity
                                     .child(auth.getUid())
                                     .child("phone")
                                     .getValue();
-                            if (phone == null) {
-                                User user = new User();
-                                user.setPhone(auth.getCurrentUser().getPhoneNumber());
+                            if (phone == null ) {
+                                phone = auth.getCurrentUser().getPhoneNumber();
                                 FirebaseDatabase.getInstance().getReference()
                                         .child("users")
                                         .child(auth.getUid())
-                                        .setValue(user);
+                                        .child("phone")
+                                        .setValue(phone);
                             }
                         }
 

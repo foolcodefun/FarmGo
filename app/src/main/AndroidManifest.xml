@@ -41,7 +41,7 @@
             android:exported="false">
         </provider>
 
-        <activity android:name=".Activity.MemberActivity">
+        <activity android:name=".Activity.RecipientListActivity">
         </activity>
     </application>
 

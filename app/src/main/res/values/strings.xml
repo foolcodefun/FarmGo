@@ -15,7 +15,7 @@
     <string name="deleteAccountOrNot">是否要刪除帳號</string>
     <string name="add_cart">加入購物車</string>
     <string name="chat">連絡賣家</string>
-    <string name="edit_member_data">編輯會員資料</string>
+    <string name="edit_recipient_data">編輯收件人資料</string>
     <string name="signed_out">已登出</string>
     <string name="send_order">確定購買</string>
     <string name="amount">總金額</string>
