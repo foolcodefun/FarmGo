@@ -1,16 +1,14 @@
 package com.little.farmgo.Data.ShoppingCart;
 
-import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.CursorLoader;
-import android.content.Intent;
-import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.View;
+import android.support.annotation.NonNull;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 
-import com.little.farmgo.Activity.ProductDetailActivity;
 import com.little.farmgo.Data.Product;
 
 import java.util.HashMap;
@@ -37,7 +35,7 @@ public class ShoppingListRepository implements LoaderManager.LoaderCallbacks<Cur
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         ShoppingCartList shoppingCartList = ShoppingCartList.getInstance();
         HashMap<Product, Integer> orders = shoppingCartList.getOrders();
         orders.clear();
@@ -59,7 +57,7 @@ public class ShoppingListRepository implements LoaderManager.LoaderCallbacks<Cur
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
 
     }
 

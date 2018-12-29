@@ -8,12 +8,12 @@ import java.util.UUID;
  */
 
 public class Recipient {
-    String firstName;
-    String familyName;
-    String county;
-    String district;
-    String address;
-    String phone;
+    private String firstName;
+    private String familyName;
+    private String county;
+    private String district;
+    private String address;
+    private String phone;
     
     public Recipient(String firstName, String familyName, String county, String district, String address, String phone) {
         this.firstName = firstName;

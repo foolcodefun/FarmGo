@@ -15,7 +15,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getLoaderManager().initLoader(SHOPPING_LIST,null
+        getSupportLoaderManager().initLoader(SHOPPING_LIST,null
                 ,new ShoppingListRepository(getApplicationContext(), ShoppingCartList.getInstance().getOrders()));
         startActivity(new Intent(this, MainActivity.class));
     }

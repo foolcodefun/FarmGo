@@ -132,16 +132,16 @@ public class MainActivity extends AppCompatActivity
     private void setItemsTitles(Menu menu) {
         MenuItem sign = menu.findItem(R.id.sign_in_or_out);
         MenuItem delete = menu.findItem(R.id.delete_account);
-        MenuItem member = menu.findItem(R.id.member_data);
+        //MenuItem member = menu.findItem(R.id.member_data);
         if (auth.getCurrentUser() != null) {
             sign.setTitle(R.string.signOut);
             delete.setVisible(true);
             delete.setTitle(R.string.deleteAccount);
-            member.setTitle(R.string.edit_recipient_data);
+            //member.setTitle(R.string.edit_recipient_data);
         } else {
             sign.setTitle(R.string.signIn);
             delete.setVisible(false);
-            member.setVisible(false);
+           // member.setVisible(false);
         }
     }
 
@@ -155,8 +155,8 @@ public class MainActivity extends AppCompatActivity
             case R.id.delete_account:
                 deleteAccount();
                 break;
-            case R.id.member_data:
-                editMemberData();
+            /*case R.id.member_data:
+                editMemberData();*/
         }
         return true;
     }
