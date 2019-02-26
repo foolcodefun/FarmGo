@@ -7,4 +7,7 @@ import android.support.v4.app.Fragment;
  */
 
 public class OrderListFragment extends Fragment {
+    //get Share Preference order uuid list and get order from database
+
+
 }

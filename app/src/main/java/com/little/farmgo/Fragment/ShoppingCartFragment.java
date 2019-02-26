@@ -1,8 +1,6 @@
 package com.little.farmgo.Fragment;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,20 +10,29 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.little.farmgo.Activity.ProductDetailActivity;
+import com.google.firebase.database.ValueEventListener;
 import com.little.farmgo.Adapter.ShoppingCartAdapter;
+import com.little.farmgo.Data.Product;
 import com.little.farmgo.Data.ShoppingCart.ShoppingCartList;
 import com.little.farmgo.Data.ShoppingCart.ShoppingListRepository;
+import com.little.farmgo.Firebase.OrderUtility;
 import com.little.farmgo.R;
 import com.little.farmgo.View.ListItemTouchHelper;
+
+import java.util.HashMap;
+import java.util.Iterator;
 
 import static android.support.v7.widget.helper.ItemTouchHelper.LEFT;
 
@@ -35,12 +42,14 @@ import static android.support.v7.widget.helper.ItemTouchHelper.LEFT;
 
 public class ShoppingCartFragment extends Fragment implements View.OnClickListener {
 
+    private static final String TAG = ShoppingCartList.class.getSimpleName();
     private RecyclerView mRecyclerView;
     private Button mSendOrderButton;
     private TextView mAmountTextView;
     private Adapter mAdapter;
     private Toolbar mToolbar;
     private TextView mNotice;
+
 
     @Nullable
     @Override
@@ -97,8 +106,68 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        //todo sendOrderf
+      /*  //TODO show progress bar
+        // todo 1. minus the number of product in database
+        //get the number of the product now
+
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null) {
+                    Product product = (Product) dataSnapshot.getValue();
+                    Log.d(TAG, "onDataChange: " +
+                            "\nproduct number" + product.getNumber());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+                // ...
+            }
+        };
+
+        HashMap<Product, Integer> orders = ShoppingCartList.getInstance().getOrders();
+        Iterator<Product> iterator = orders.keySet().iterator();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("protucts");
+
+        while (iterator.hasNext()) {
+            Product product = iterator.next();
+            reference.child("$uid").orderByChild("imageUrl").equalTo(product.getImageUrl()).addListenerForSingleValueEvent(postListener);
+        }
+
+
+*/        sendOrder();
+
+
     }
+
+    private void sendOrder() {
+        // todo 2. if is log in,send to database
+        OrderUtility orderUtility = new OrderUtility(new OrderUtility.OnSendOrderCallback() {
+            @Override
+            public void onSuccess() {
+                //TODO hide progress bar
+                //TODO Navigate to OrderListFragment
+
+            }
+
+            @Override
+            public void onFailure() {
+                //TODO hide progress bar
+                //TODO alertDialog
+                //TODO should add products number
+            }
+        });
+        String userUid = FirebaseAuth.getInstance().getUid();
+        if (userUid != null) {
+            orderUtility.sendOrder(userUid);
+        } else {
+            //todo 3. if is not log in, show alert dialog to log in
+        }
+    }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -107,7 +176,7 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
 
     }
 
-    private class Adapter extends ShoppingCartAdapter{
+    private class Adapter extends ShoppingCartAdapter {
         private Adapter(ShoppingListRepository repository, Context context) {
             super(repository, context);
         }
