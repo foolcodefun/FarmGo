@@ -106,17 +106,18 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-      /*  //TODO show progress bar
-        // todo 1. minus the number of product in database
-        //get the number of the product now
-
+        //TODO show progress bar
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot != null) {
-                    Product product = (Product) dataSnapshot.getValue();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String key = (String) snapshot.getKey();
                     Log.d(TAG, "onDataChange: " +
-                            "\nproduct number" + product.getNumber());
+                            "\nproduct key: " + key);
+                    Product product = snapshot.getValue(Product.class);
+                    Log.d(TAG, "onDataChange: " +
+                            "\nproduct number: " + product.getNumber());
+
                 }
             }
 
@@ -130,15 +131,15 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
 
         HashMap<Product, Integer> orders = ShoppingCartList.getInstance().getOrders();
         Iterator<Product> iterator = orders.keySet().iterator();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("protucts");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("products");
 
         while (iterator.hasNext()) {
             Product product = iterator.next();
-            reference.child("$uid").orderByChild("imageUrl").equalTo(product.getImageUrl()).addListenerForSingleValueEvent(postListener);
+            Log.d(TAG, "onClick: " + product.getImageUrl());
+            reference.orderByChild("imageUrl").equalTo(product.getImageUrl()).addListenerForSingleValueEvent(postListener);
         }
 
-
-*/        sendOrder();
+        sendOrder();
 
 
     }
